@@ -1,0 +1,62 @@
+{
+  "name": "dk-style-lint-api",
+  "version": "0.0.5",
+  "private": true,
+  "scripts": {
+    "serve": "nodemon ./app.js --exec babel-node",
+    "lint": "eslint app.js controllers/* route.js",
+    "lint-fix": "eslint app.js controllers/* route.js --fix",
+    "build": "webpack --mode production",
+    "build-dev": "webpack --mode development",
+    "start": "pm2 startOrRestart pm2.json"
+  },
+  "dependencies": {
+    "compression": "^1.7.4",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "diff": "^4.0.1",
+    "diff2html": "^2.12.1",
+    "express": "~4.16.1",
+    "morgan": "~1.9.1",
+    "posthtml": "^0.12.0",
+    "posthtml-attrs-sorter": "^1.1.0",
+    "serve-favicon": "^2.5.0",
+    "stylelint": "^11.1.1",
+    "stylelint-config-recommended": "^3.0.0",
+    "stylelint-config-recommended-scss": "^4.0.0",
+    "stylelint-order": "^3.1.1",
+    "stylelint-scss": "^3.12.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/node": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "clean-webpack-plugin": "^3.0.0",
+    "eslint": "^6.0.1",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "file-loader": "^4.0.0",
+    "nodemon": "^1.19.1",
+    "pm2": "^4.1.2",
+    "terser-webpack-plugin": "^1.3.0",
+    "webpack": "^4.35.0",
+    "webpack-cli": "^3.3.5",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
+    ]
+  }
+}
