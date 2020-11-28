@@ -94,6 +94,13 @@ const onError = (error) => {
 const env = process.env.NODE_ENV || 'devel';
 server.listen(port, () => {
   console.log(`Express is running on port ${port} / ${env}`);
+  if (global.gc) {
+    console.log('--expose-gc');
+    global.gc();
+  } else {
+    console.log('Garbage collection unavailable.  use --expose-gc '
+      + 'when launching node to enable forced garbage collection.');
+  }
 });
 server.on('error', onError);
 server.on('listening', onListening);
