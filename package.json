@@ -1,6 +1,6 @@
 {
-  "name": "dk-style-lint-api",
-  "version": "0.0.5",
+  "name": "mongmung-style-lint-api",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "nodemon ./app.js --exec babel-node",
