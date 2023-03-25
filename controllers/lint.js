@@ -1,8 +1,8 @@
-import stylelint from 'stylelint';
-import posthtml from 'posthtml';
+import { lint } from 'stylelint';
+import postHtml from 'posthtml';
 import attrsSorter from 'posthtml-attrs-sorter';
 import { createPatch } from 'diff';
-import { Diff2Html } from 'diff2html';
+import * as Diff2Html from 'diff2html';
 
 class RetRes {
   constructor (res) {
@@ -32,13 +32,12 @@ export function report (req, res, next) {
     code: req.body.code,
     config,
     syntax: req.body.syntax,
-    fix: 'true'
+    fix: true
   };
 
-  const htmlOrder = {
-    'order': [
+  const htmlOrder = [
       'rel',
-      'tpye',
+      'type',
       'href',
       'src',
       'width',
@@ -55,14 +54,13 @@ export function report (req, res, next) {
       'data-.+',
       '$unknown$'
     ]
-  };
 
   const codeDiff = (OriginCode, lintCode) => {
     let html = '';
     const diffText = createPatch('', OriginCode, lintCode, '', '');
     if (diffText.length > 88) {
       console.log('pretty');
-      html = Diff2Html.getPrettyHtml(diffText, {
+      html = Diff2Html.html(diffText, {
         inputFormat: 'diff',
         showFiles: false,
         matching: 'lines',
@@ -76,7 +74,7 @@ export function report (req, res, next) {
   const procPostHtml = (response) => {
     console.log('lint');
     if (req.body.syntax === 'html') {
-      posthtml()
+      postHtml()
         .use(attrsSorter(htmlOrder))
         .process(response.output, {
           lowerCaseTags: true,
@@ -105,8 +103,7 @@ export function report (req, res, next) {
     }
   };
 
-  stylelint
-    .lint(opts)
+  lint(opts)
     .then(procPostHtml)
     .catch(err => {
       console.log('err :::' + err);
