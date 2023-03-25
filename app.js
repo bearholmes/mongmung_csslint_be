@@ -44,7 +44,7 @@ const normalizePort = (val) => {
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || '5000');
+const port = normalizePort(process.env.PORT || '5002');
 app.set('port', port);
 
 /**
@@ -98,8 +98,7 @@ server.listen(port, () => {
     console.log('--expose-gc');
     global.gc();
   } else {
-    console.log('Garbage collection unavailable.  use --expose-gc '
-      + 'when launching node to enable forced garbage collection.');
+    console.log('Garbage collection unavailable.  use --expose-gc when launching node to enable forced garbage collection.');
   }
 });
 server.on('error', onError);

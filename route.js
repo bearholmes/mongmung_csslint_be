@@ -9,6 +9,6 @@ router.get('/', (req, res) => {
   res.send(`Hello. welcome to Stylelint. ${process.env.NODE_ENV || 'devel'}`);
 });
 
-router.post('/lint', lint.report);
+router.post('/api/lint', lint.report);
 
 export default router;
