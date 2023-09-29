@@ -9,7 +9,11 @@ import { swagger } from '@elysiajs/swagger';
 
 import { codeDiff, htmlOrder } from './lint.ts';
 
-const app = new Elysia({})
+new Elysia({
+  serve: {
+    hostname: '0.0.0.0',
+  },
+})
   .use(
     swagger({
       documentation: {
@@ -125,6 +129,6 @@ const app = new Elysia({})
       },
     },
   )
-  .listen(5002);
-
-console.log(`🦊 Elysia is running at on port ${app.server?.port}...`);
+  .listen(process.env.PORT ?? 5000, ({ hostname, port }) => {
+    console.log(`🦊 Running at http://${hostname}:${port}`);
+  });
