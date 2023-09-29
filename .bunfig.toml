@@ -1,5 +1,5 @@
 # Reduce memory usage at the cost of performance
-smol = true
+# smol = true
 
 # "debug" | "warn" | "error"
 logLevel = "debug"
