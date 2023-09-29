@@ -1,0 +1,15 @@
+{
+  "apps": [
+    {
+      "name": "stylelint",
+      "script": "bun --smol run ./index.ts",
+      "env": {
+        "NODE_ENV": "production",
+        "PORT": 5000
+      },
+      "node_args": "--expose-gc",
+      "exec_mode": "fork",
+      "instances": 1
+    }
+  ]
+}
