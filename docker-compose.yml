@@ -9,10 +9,10 @@ services:
     image: oven/bun:slim
     environment:
       - PORT=8080
-      - NODE_ENV=production
     ports:
       - "5000:8080"
     volumes:
       - .:/app
+      - /app/node_modules
     working_dir: /app
     entrypoint: ["bun", "run", "dev"]
