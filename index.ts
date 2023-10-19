@@ -2,12 +2,12 @@ import { Elysia, t } from 'elysia';
 import { cors } from '@elysiajs/cors';
 import { staticPlugin } from '@elysiajs/static';
 import figlet from 'figlet';
-import postHtml from 'posthtml';
-import { lint } from 'stylelint';
-import attrsSorter from 'posthtml-attrs-sorter';
+import styleLint from 'stylelint';
+// @ts-ignore
 import { swagger } from '@elysiajs/swagger';
 
-import { codeDiff, htmlOrder } from './lint.ts';
+import packageJson from './package.json';
+const listVersion = packageJson.dependencies?.stylelint?.replace(/\^/gi, '');
 
 new Elysia({
   serve: {
@@ -15,6 +15,7 @@ new Elysia({
   },
 })
   .use(
+    // /swagger
     swagger({
       documentation: {
         info: {
@@ -52,67 +53,65 @@ new Elysia({
     async ({ body, set }) => {
       try {
         // console.log(body, 'body')
-        const config = body.config;
+        const { rules = {} } = <any>body.config;
+        console.log(body.config, 'config');
 
         if (
-          (typeof config === 'object' && Object.keys(config).length < 1) ||
-          !config
+          (typeof rules === 'object' && Object.keys(rules).length < 1) ||
+          !rules
         ) {
           set.status = 400;
           return {
             success: false,
             message: 'Could not parse stylelint config',
-            lint: null,
+            content: null,
           };
         }
 
         const opts = {
           code: body.code,
-          config,
-          syntax: body.syntax,
-          fix: true,
+          config: {
+            customSyntax: 'postcss-html',
+            extends: [
+              'stylelint-config-standard',
+              'stylelint-config-recommended-scss',
+              'stylelint-config-recommended-vue',
+            ],
+            fix: true,
+            plugins: ['stylelint-order'],
+            rules: {
+              ...rules,
+            },
+          },
         };
 
-        const lintResult = await lint(opts);
+        const lintResult = await styleLint.lint(opts);
 
-        if (body.syntax === 'html') {
-          const htmlResult = await postHtml()
-            .use(attrsSorter(htmlOrder))
-            .process(lintResult.output, {
-              lowerCaseTags: true,
-              lowerCaseAttributeNames: true,
-              closingSingleTag: 'slash',
-            })
-            .then((result) => result.html);
-          const diffHtml = codeDiff(opts.code, htmlResult);
-          return {
-            success: true,
-            message: 'ok',
-            lint: {
-              warnings: lintResult.results[0].warnings,
-              output: htmlResult,
-              diff: diffHtml,
+        // console.log(lintResult, 'lintResult');
+
+        return {
+          success: true,
+          message: 'ok',
+          content: {
+            warnings: lintResult.results[0].warnings,
+            output: lintResult.output,
+            info: {
+              version: listVersion,
+              config: {
+                extends: opts.config.extends,
+                plugins: opts.config.plugins,
+                customSyntax: opts.config.customSyntax,
+              },
             },
-          };
-        } else {
-          const diffHtml = codeDiff(opts.code, lintResult.output);
-          return {
-            success: true,
-            message: 'ok',
-            lint: {
-              warnings: lintResult.results[0].warnings,
-              output: lintResult.output,
-              diff: diffHtml,
-            },
-          };
-        }
+          },
+        };
       } catch (err) {
         console.error(err);
         set.status = 400;
         return {
           success: false,
           message: 'lint failed',
-          lint: null,
+          content: null,
         };
       }
     },
@@ -122,7 +121,6 @@ new Elysia({
       body: t.Object({
         code: t.String(),
         config: t.Object({}),
-        syntax: t.String(),
       }),
       detail: {
         tags: ['StyleLint'],
