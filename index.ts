@@ -127,6 +127,6 @@ new Elysia({
       },
     },
   )
-  .listen(process.env.PORT ?? 5000, ({ hostname, port }) => {
+  .listen(process.env.PORT ?? 5002, ({ hostname, port }) => {
     console.log(`🦊 Running at http://${hostname}:${port}`);
   });
