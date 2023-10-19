@@ -29,13 +29,14 @@
     "@elysiajs/cors": "^0.7.1",
     "@elysiajs/static": "^0.7.1",
     "@elysiajs/swagger": "^0.7.3",
-    "diff": "^5.1.0",
-    "diff2html": "^3.4.43",
     "elysia": "^0.7.15",
     "figlet": "^1.6.0",
-    "posthtml": "^0.16.6",
-    "posthtml-attrs-sorter": "^1.1.0",
-    "stylelint": "13.13.1",
-    "stylelint-order": "4.1.0"
+    "postcss": "^8.4.31",
+    "postcss-html": "^1.5.0",
+    "stylelint": "^15.11.0",
+    "stylelint-config-recommended-scss": "^13.0.0",
+    "stylelint-config-recommended-vue": "^1.5.0",
+    "stylelint-config-standard": "^34.0.0",
+    "stylelint-order": "^6.0.3"
   }
 }
