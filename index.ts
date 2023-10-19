@@ -54,7 +54,6 @@ new Elysia({
       try {
         // console.log(body, 'body')
         const { rules = {} } = <any>body.config;
-        console.log(body.config, 'config');
 
         if (
           (typeof rules === 'object' && Object.keys(rules).length < 1) ||
