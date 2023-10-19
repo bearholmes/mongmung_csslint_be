@@ -20,10 +20,16 @@
     "@types/figlet": "^1.5.6",
     "@types/stylelint": "^14.0.0",
     "bun-types": "^1.0.3",
+    "is-plain-object": "^5.0.0",
     "prettier": "^3.0.3"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "postcss": {
+      "optional": true
+    }
   },
   "dependencies": {
     "@elysiajs/cors": "^0.7.1",
