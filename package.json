@@ -1,6 +1,6 @@
 {
   "name": "mongmung_csslint_be",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "private": true,
   "module": "index.ts",
   "type": "module",
@@ -15,22 +15,6 @@
     "serve": "bun --hot run index.ts",
     "dev": "bun --smol run index.ts"
   },
-  "devDependencies": {
-    "@types/diff": "^5.0.5",
-    "@types/figlet": "^1.5.6",
-    "@types/stylelint": "^14.0.0",
-    "bun-types": "^1.0.3",
-    "is-plain-object": "^5.0.0",
-    "prettier": "^3.0.3"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  },
-  "peerDependenciesMeta": {
-    "postcss": {
-      "optional": true
-    }
-  },
   "dependencies": {
     "@elysiajs/cors": "^0.7.1",
     "@elysiajs/static": "^0.7.1",
@@ -44,5 +28,22 @@
     "stylelint-config-recommended-vue": "^1.5.0",
     "stylelint-config-standard": "^34.0.0",
     "stylelint-order": "^6.0.3"
+  },
+  "devDependencies": {
+    "@types/diff": "^5.0.5",
+    "@types/figlet": "^1.5.6",
+    "@types/stylelint": "^14.0.0",
+    "bun-types": "^1.0.3",
+    "is-plain-object": "^5.0.0",
+    "prettier": "^3.0.3",
+    "stylelint-stylistic": "^0.4.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "postcss": {
+      "optional": true
+    }
   }
 }
