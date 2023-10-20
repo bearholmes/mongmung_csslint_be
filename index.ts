@@ -67,8 +67,8 @@ new Elysia({
     async ({ body, set }) => {
       try {
         const syntax: string = body.syntax;
-        const { rules }: any = body.config || {};
 
+        const { rules }: any = body.config || {};
         if (
           !rules ||
           (typeof rules === 'object' && Object.keys(rules).length < 1)
@@ -80,7 +80,7 @@ new Elysia({
             message: '스타일린트 설정을 파싱할 수 없습니다',
             content: null,
           };
-        } else if (!syntax) {
+        } else if (!syntax || !['css', 'html'].includes(syntax)) {
           // 스타일린트 문법을 파싱할 수 없을 때
           set.status = 400;
           return {
@@ -100,7 +100,7 @@ new Elysia({
               'stylelint-config-recommended-vue',
             ],
             fix: true,
-            plugins: ['stylelint-order'],
+            plugins: ['stylelint-order', 'stylelint-stylistic'],
             rules: {
               ...rules,
             },
@@ -113,7 +113,6 @@ new Elysia({
 
         // 스타일린트 실행
         const lintResult = await styleLint.lint(opts);
-
         // 성공적인 결과 반환
         return {
           success: true,
@@ -156,5 +155,5 @@ new Elysia({
     },
   )
   .listen(process.env.PORT ?? 5002, ({ hostname, port }) => {
-    console.log(`🦊 Running at http://${hostname}:${port}`);
+    console.info(`🦊 Running at http://${hostname}:${port}`);
   });
