@@ -6,8 +6,22 @@ import styleLint from 'stylelint';
 // @ts-ignore
 import { swagger } from '@elysiajs/swagger';
 
+// @ts-ignore
 import packageJson from './package.json';
 const listVersion = packageJson.dependencies?.stylelint?.replace(/\^/gi, '');
+
+interface Config {
+  extends: string[];
+  fix: boolean;
+  plugins: string[];
+  rules: Record<string, any>;
+  customSyntax?: string;
+}
+
+interface Options {
+  code: string;
+  config: Config;
+}
 
 new Elysia({
   serve: {
@@ -52,45 +66,57 @@ new Elysia({
     '/api/lint',
     async ({ body, set }) => {
       try {
-        // console.log(body, 'body')
-        const { rules = {} } = <any>body.config;
+        const syntax: string = body.syntax;
 
+        const { rules }: any = body.config || {};
         if (
-          (typeof rules === 'object' && Object.keys(rules).length < 1) ||
-          !rules
+          !rules ||
+          (typeof rules === 'object' && Object.keys(rules).length < 1)
         ) {
+          // 스타일린트 설정을 파싱할 수 없을 때
           set.status = 400;
           return {
             success: false,
-            message: 'Could not parse stylelint config',
+            message: '스타일린트 설정을 파싱할 수 없습니다',
+            content: null,
+          };
+        } else if (!syntax || !['css', 'html'].includes(syntax)) {
+          // 스타일린트 문법을 파싱할 수 없을 때
+          set.status = 400;
+          return {
+            success: false,
+            message: '스타일린트 문법을 파싱할 수 없습니다',
             content: null,
           };
         }
 
-        const opts = {
+        // 스타일린트 옵션 설정
+        const opts: Options = {
           code: body.code,
           config: {
-            customSyntax: 'postcss-html',
             extends: [
               'stylelint-config-standard',
               'stylelint-config-recommended-scss',
               'stylelint-config-recommended-vue',
             ],
             fix: true,
-            plugins: ['stylelint-order'],
+            plugins: ['stylelint-order', 'stylelint-stylistic'],
             rules: {
               ...rules,
             },
           },
         };
 
+        if (syntax === 'html') {
+          opts.config.customSyntax = 'postcss-html';
+        }
+
+        // 스타일린트 실행
         const lintResult = await styleLint.lint(opts);
-
-        // console.log(lintResult, 'lintResult');
-
+        // 성공적인 결과 반환
         return {
           success: true,
-          message: 'ok',
+          message: '성공',
           content: {
             warnings: lintResult.results[0].warnings,
             output: lintResult.output,
@@ -105,11 +131,12 @@ new Elysia({
           },
         };
       } catch (err) {
+        // 오류 처리
         console.error(err);
         set.status = 400;
         return {
           success: false,
-          message: 'lint failed',
+          message: '린트 실패',
           content: null,
         };
       }
@@ -119,6 +146,7 @@ new Elysia({
       type: 'json',
       body: t.Object({
         code: t.String(),
+        syntax: t.String(),
         config: t.Object({}),
       }),
       detail: {
@@ -127,5 +155,5 @@ new Elysia({
     },
   )
   .listen(process.env.PORT ?? 5002, ({ hostname, port }) => {
-    console.log(`🦊 Running at http://${hostname}:${port}`);
+    console.info(`🦊 Running at http://${hostname}:${port}`);
   });
