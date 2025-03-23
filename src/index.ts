@@ -5,13 +5,18 @@ import figlet from 'figlet';
 import { swagger } from '@elysiajs/swagger';
 import { handleLintRequest } from './controllers/lintController';
 
-const PORT = process.env.PORT ?? 5002;
+// 환경 변수에서 포트 가져오기
+const PORT = process.env.PORT || 5002;
 const HOST = '0.0.0.0';
+const isDev = process.env.NODE_ENV === 'development';
 
 const app = new Elysia({
   serve: {
     hostname: HOST,
+    port: PORT,
   },
+  // 개발 환경에서만 HMR 활성화
+  hot: isDev
 });
 
 // 미들웨어 설정
@@ -75,6 +80,9 @@ app.post(
 // 서버 시작
 app.listen(PORT, ({ hostname, port }) => {
   console.info(`🦊 Running at http://${hostname}:${port}`);
+  if (isDev) {
+    console.info('Development mode with HMR enabled');
+  }
 });
 
 export default app;

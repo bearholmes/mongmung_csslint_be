@@ -12,9 +12,10 @@
   "scripts": {
     "clean": "rm -rf dist && echo 'Done.'",
     "format": "prettier . --write",
-    "serve": "bun --hot run src/index.ts",
+    "serve": "NODE_ENV=development bun run src/index.ts",
     "dev": "bun --smol run src/index.ts",
-    "build": "bun build src/index.ts --outdir dist"
+    "build": "bun build src/index.ts --outdir dist",
+    "start": "bun run src/index.ts"
   },
   "dependencies": {
     "@elysiajs/cors": "^0.7.1",
