@@ -3,11 +3,13 @@ import { cors } from '@elysiajs/cors';
 import { staticPlugin } from '@elysiajs/static';
 import figlet from 'figlet';
 import styleLint from 'stylelint';
+import postcss from 'postcss';
 // @ts-ignore
 import { swagger } from '@elysiajs/swagger';
 
 // @ts-ignore
 import packageJson from './package.json';
+import { compactFormatter, nestedFormatter } from './formatter.ts';
 const listVersion = packageJson.dependencies?.stylelint?.replace(/\^/gi, '');
 
 interface Config {
@@ -68,7 +70,7 @@ new Elysia({
       try {
         const syntax: string = body.syntax;
 
-        const { rules }: any = body.config || {};
+        const { rules, outputStyle = '' }: any = body.config || {};
         if (
           !rules ||
           (typeof rules === 'object' && Object.keys(rules).length < 1)
@@ -113,13 +115,29 @@ new Elysia({
 
         // 스타일린트 실행
         const lintResult = await styleLint.lint(opts);
+
+        let formatOutput = '';
+        // customSyntax가 설정된 경우, 해당 구문 파서를 사용하여 파싱
+        if (syntax === 'html' || !outputStyle) {
+          formatOutput = lintResult.output;
+        } else {
+          const root = postcss.parse(lintResult.output); // CSS만 포함된 경우 기본 파서 사용
+
+          // Formatter를 적용하여 결과를 변환
+          if (outputStyle === 'nested') {
+            formatOutput = nestedFormatter(root);
+          } else {
+            formatOutput = compactFormatter(root);
+          }
+        }
+
         // 성공적인 결과 반환
         return {
           success: true,
           message: '성공',
           content: {
             warnings: lintResult.results[0].warnings,
-            output: lintResult.output,
+            output: formatOutput,
             info: {
               version: listVersion,
               config: {

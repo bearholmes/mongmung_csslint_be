@@ -1,8 +1,8 @@
 {
   "name": "mongmung_csslint_be",
-  "version": "2.0.2",
+  "version": "3.0.0",
   "private": true,
-  "module": "index.ts",
+  "module": "src/index.ts",
   "type": "module",
   "engines": {
     "node": ">=16",
@@ -12,8 +12,10 @@
   "scripts": {
     "clean": "rm -rf dist && echo 'Done.'",
     "format": "prettier . --write",
-    "serve": "bun --hot run index.ts",
-    "dev": "bun --smol run index.ts"
+    "serve": "NODE_ENV=development bun run src/index.ts",
+    "dev": "bun --smol run src/index.ts",
+    "build": "bun build src/index.ts --outdir dist",
+    "start": "bun run src/index.ts"
   },
   "dependencies": {
     "@elysiajs/cors": "^0.7.1",
@@ -32,6 +34,7 @@
   "devDependencies": {
     "@types/diff": "^5.0.5",
     "@types/figlet": "^1.5.6",
+    "@types/postcss-html": "^1.5.3",
     "@types/stylelint": "^14.0.0",
     "bun-types": "^1.0.3",
     "is-plain-object": "^5.0.0",
