@@ -44,11 +44,17 @@ app.use(
 
 /**
  * CORS 설정
- * TODO: 프로덕션 환경에서는 특정 도메인으로 제한 필요
+ * - 개발 환경: 기본값 '*' (모든 도메인 허용)
+ * - 프로덕션: 환경 변수로 명시적 도메인 제한
+ * - 환경 변수: CORS_ORIGIN (단일 도메인 또는 쉼표로 구분된 여러 도메인)
+ *
+ * @example
+ * CORS_ORIGIN=https://example.com
+ * CORS_ORIGIN=https://example.com,https://api.example.com
  */
 app.use(
   cors({
-    origin: '*',
+    origin: env.CORS_ORIGIN,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
   })

@@ -38,6 +38,64 @@ CSS 코드 품질 검사를 위한 백엔드 서비스입니다. Stylelint를 �
 bun install
 ```
 
+## 환경 변수 설정
+
+프로젝트는 환경 변수를 통해 설정을 관리합니다. 개발을 시작하기 전에 환경 변수 파일을 설정하세요.
+
+### 환경 변수 파일 생성
+
+```bash
+cp .env.example .env
+```
+
+### 주요 환경 변수
+
+| 변수 | 설명 | 기본값 | 필수 여부 |
+|------|------|--------|----------|
+| `PORT` | 서버 포트 | `5002` | 선택 |
+| `HOST` | 서버 호스트 | `0.0.0.0` | 선택 |
+| `NODE_ENV` | Node 환경 (development/production/test) | `development` | 선택 |
+| `CORS_ORIGIN` | CORS 허용 Origin | `*` (개발), 필수 (프로덕션) | 프로덕션에서 필수 |
+
+### CORS 설정
+
+CORS(Cross-Origin Resource Sharing) 설정은 보안을 위해 환경에 따라 다르게 동작합니다:
+
+**개발 환경 (NODE_ENV=development)**
+- 기본값: `*` (모든 도메인 허용)
+- `CORS_ORIGIN` 미설정 시 자동으로 `*` 적용
+
+**프로덕션 환경 (NODE_ENV=production)**
+- `CORS_ORIGIN` 환경 변수 **필수**
+- 명시적으로 허용할 도메인을 설정해야 함
+
+**단일 도메인 허용:**
+```bash
+CORS_ORIGIN=https://example.com
+```
+
+**여러 도메인 허용 (쉼표로 구분):**
+```bash
+CORS_ORIGIN=https://example.com,https://api.example.com,https://admin.example.com
+```
+
+**개발 환경 예시:**
+```bash
+NODE_ENV=development
+CORS_ORIGIN=http://localhost:3000
+```
+
+**프로덕션 환경 예시:**
+```bash
+NODE_ENV=production
+CORS_ORIGIN=https://your-frontend-domain.com
+```
+
+⚠️ **주의사항:**
+- `.env` 파일은 절대 Git에 커밋하지 마세요
+- 프로덕션 환경에서는 반드시 특정 도메인으로 제한하세요
+- `CORS_ORIGIN`을 설정하지 않으면 프로덕션 환경에서 서버 시작이 실패합니다
+
 ## 실행
 
 개발 모드로 실행:
