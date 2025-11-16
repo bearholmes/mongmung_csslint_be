@@ -19,12 +19,25 @@ import {
 } from '../utils/validation';
 import { LintError, ParseError } from '../errors';
 import { MESSAGES, VALIDATION_ERRORS } from '../constants';
-import packageJson from '../../package.json';
 
 /**
- * Stylelint 버전 (package.json에서 추출, 캐싱)
+ * 실제 설치된 Stylelint 버전 확인
+ * package.json의 dependencies가 아닌 설치된 패키지에서 버전 추출
  */
-const STYLELINT_VERSION = packageJson.dependencies?.stylelint?.replace(/\^|~|>=?/g, '') || 'unknown';
+function getStylelintVersion(): string {
+  try {
+    // 동적 import를 사용하여 node_modules의 실제 패키지 버전 가져오기
+    const stylelintPackage = require('stylelint/package.json');
+    return stylelintPackage.version || 'unknown';
+  } catch {
+    return 'unknown';
+  }
+}
+
+/**
+ * Stylelint 버전 (실제 설치된 버전, 캐싱)
+ */
+const STYLELINT_VERSION = getStylelintVersion();
 
 /**
  * 린트 요청 유효성 검증
