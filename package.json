@@ -15,7 +15,9 @@
     "serve": "NODE_ENV=development bun run src/index.ts",
     "dev": "bun --smol run src/index.ts",
     "build": "bun build src/index.ts --outdir dist",
-    "start": "bun run src/index.ts"
+    "start": "bun run src/index.ts",
+    "test": "bun test",
+    "test:watch": "bun test --watch"
   },
   "dependencies": {
     "@elysiajs/cors": "^0.7.1",
@@ -42,7 +44,7 @@
     "stylelint-stylistic": "^0.4.3"
   },
   "peerDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.9.3"
   },
   "peerDependenciesMeta": {
     "postcss": {
