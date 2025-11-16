@@ -4,24 +4,20 @@ import { staticPlugin } from '@elysiajs/static';
 import figlet from 'figlet';
 import { swagger } from '@elysiajs/swagger';
 import { handleLintRequest } from './controllers/lintController';
-
-/**
- * 환경 변수
- */
-const PORT = Number(process.env.PORT) || 5002;
-const HOST = '0.0.0.0';
-const isDev = process.env.NODE_ENV === 'development';
+import { env } from './config/env';
+import { logger } from './utils/logger';
+import { API_ROUTES, MESSAGES } from './constants';
 
 /**
  * Elysia 애플리케이션 초기화
  */
 const app = new Elysia({
   serve: {
-    hostname: HOST,
-    port: PORT,
+    hostname: env.HOST,
+    port: env.PORT,
   },
   // 개발 환경에서만 HMR 활성화
-  hot: isDev,
+  hot: env.isDev,
 });
 
 /**
@@ -42,7 +38,7 @@ app.use(
         },
       ],
     },
-    exclude: ['/'],
+    exclude: [API_ROUTES.ROOT],
   })
 );
 
@@ -73,16 +69,16 @@ app.onError(({ code, error, set }) => {
   }
 
   // 기타 에러는 기본 처리
-  console.error('[App] Error:', {
+  logger.error('Application error', {
     code,
     message: error.message,
-    timestamp: new Date().toISOString(),
+    stack: env.isDev ? error.stack : undefined,
   });
 
   return {
     success: false,
-    message: '서버 오류가 발생했습니다',
-    error: isDev ? error.message : undefined,
+    message: MESSAGES.SERVER_ERROR,
+    error: env.isDev ? error.message : undefined,
   };
 });
 
@@ -91,13 +87,13 @@ app.onError(({ code, error, set }) => {
  */
 
 // Favicon
-app.get('/favicon.ico', () => Bun.file('public/favicon.ico'));
+app.get(API_ROUTES.FAVICON, () => Bun.file('public/favicon.ico'));
 
 // 헬스 체크 엔드포인트
-app.get('/', () => figlet.textSync('Hello StyleLint!'));
+app.get(API_ROUTES.ROOT, () => figlet.textSync('Hello StyleLint!'));
 
 // 린트 API 엔드포인트
-app.post('/api/lint', handleLintRequest, {
+app.post(API_ROUTES.LINT, handleLintRequest, {
   type: 'json',
   body: t.Object({
     code: t.String({
@@ -131,11 +127,11 @@ app.post('/api/lint', handleLintRequest, {
 /**
  * 서버 시작
  */
-app.listen(PORT, ({ hostname, port }) => {
-  console.info(`🦊 Elysia server running at http://${hostname}:${port}`);
-  console.info(`📚 Swagger documentation: http://${hostname}:${port}/swagger`);
-  if (isDev) {
-    console.info('🔥 Development mode with HMR enabled');
+app.listen(env.PORT, ({ hostname, port }) => {
+  logger.info(`Elysia server running at http://${hostname}:${port}`);
+  logger.info(`Swagger documentation: http://${hostname}:${port}${API_ROUTES.SWAGGER}`);
+  if (env.isDev) {
+    logger.info('Development mode with HMR enabled');
   }
 });
 

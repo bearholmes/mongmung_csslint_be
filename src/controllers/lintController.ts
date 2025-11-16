@@ -1,5 +1,8 @@
-import { lintCode, LintError } from '../services/lintService';
+import { lintCode } from '../services/lintService';
 import { LintRequest, LintResult } from '../types';
+import { logger } from '../utils/logger';
+import { isAppError, toAppError } from '../errors';
+import { HTTP_STATUS, MESSAGES } from '../constants';
 
 /**
  * Elysia 컨텍스트 타입
@@ -43,30 +46,22 @@ export async function handleLintRequest(context: ElysiaContext): Promise<LintRes
     const result = await lintCode(body);
     return result;
   } catch (error) {
-    // LintError: 사용자 입력 오류 (400 Bad Request)
-    if (error instanceof LintError) {
-      set.status = 400;
-      return {
-        success: false,
-        message: error.message,
-        content: null,
-      };
-    }
+    // AppError 계열 에러 처리
+    const appError = toAppError(error);
 
-    // 예상치 못한 에러 (500 Internal Server Error)
-    const errorMessage =
-      error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다';
-
-    console.error('[lintController] Unexpected error:', {
-      message: errorMessage,
-      error,
-      timestamp: new Date().toISOString(),
+    logger.error('Lint request failed', {
+      message: appError.message,
+      code: appError.code,
+      statusCode: appError.statusCode,
+      context: appError.context,
     });
 
-    set.status = 500;
+    // HTTP 상태 코드 설정
+    set.status = appError.statusCode;
+
     return {
       success: false,
-      message: '내부 서버 오류가 발생했습니다',
+      message: appError.message,
       content: null,
     };
   }

@@ -10,6 +10,15 @@ import {
 } from '../types';
 import { createStylelintConfig } from '../config/stylelint';
 import { compactFormatter, nestedFormatter } from '../utils/formatters';
+import { logger } from '../utils/logger';
+import {
+  validateCode,
+  validateSyntax,
+  validateRules,
+  validateOutputStyle,
+} from '../utils/validation';
+import { LintError, ParseError } from '../errors';
+import { MESSAGES, VALIDATION_ERRORS } from '../constants';
 import packageJson from '../../package.json';
 
 /**
@@ -18,73 +27,25 @@ import packageJson from '../../package.json';
 const STYLELINT_VERSION = packageJson.dependencies?.stylelint?.replace(/\^|~|>=?/g, '') || 'unknown';
 
 /**
- * 유효한 CSS 문법 목록
- */
-const VALID_SYNTAXES: readonly CssSyntax[] = ['css', 'html'];
-
-/**
- * 유효한 출력 스타일 목록
- */
-const VALID_OUTPUT_STYLES: readonly OutputStyle[] = ['compact', 'nested'];
-
-/**
- * 린트 에러 클래스
- * 사용자 입력 오류 및 린트 실행 오류를 표현
- */
-export class LintError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'LintError';
-    // 스택 트레이스 캡처 (V8 엔진 최적화)
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, LintError);
-    }
-  }
-}
-
-/**
  * 린트 요청 유효성 검증
  *
  * @param request - 검증할 린트 요청 객체
- * @throws {LintError} 유효하지 않은 입력 시
+ * @throws {ValidationError} 유효하지 않은 입력 시
  */
 function validateLintRequest(request: LintRequest): void {
   const { code, syntax, config } = request;
 
   // 코드 검증
-  if (typeof code !== 'string') {
-    throw new LintError('CSS 코드는 문자열이어야 합니다');
-  }
-
-  if (code.trim().length === 0) {
-    throw new LintError('CSS 코드가 비어있습니다');
-  }
+  validateCode(code);
 
   // 문법 검증
-  if (!VALID_SYNTAXES.includes(syntax)) {
-    throw new LintError(
-      `지원하지 않는 문법입니다. 사용 가능한 문법: ${VALID_SYNTAXES.join(', ')}`
-    );
-  }
+  validateSyntax(syntax);
 
   // 규칙 검증
-  if (!config.rules || typeof config.rules !== 'object') {
-    throw new LintError('린트 규칙은 객체여야 합니다');
-  }
-
-  if (Object.keys(config.rules).length === 0) {
-    throw new LintError('최소 하나 이상의 린트 규칙이 필요합니다');
-  }
+  validateRules(config.rules);
 
   // 출력 스타일 검증 (선택적)
-  if (
-    config.outputStyle &&
-    !VALID_OUTPUT_STYLES.includes(config.outputStyle as OutputStyle)
-  ) {
-    throw new LintError(
-      `지원하지 않는 출력 스타일입니다. 사용 가능한 스타일: ${VALID_OUTPUT_STYLES.join(', ')}`
-    );
-  }
+  validateOutputStyle(config.outputStyle);
 }
 
 /**
@@ -113,7 +74,7 @@ function extractWarnings(lintResult: styleLint.LintResult): StylelintWarning[] {
  * @param outputStyle - 출력 스타일 ('compact' | 'nested')
  * @param syntax - CSS 문법 타입
  * @returns 포맷팅된 CSS 문자열
- * @throws {LintError} 파싱 오류 시
+ * @throws {ParseError} 파싱 오류 시
  */
 function formatOutput(
   lintedCode: string,
@@ -134,9 +95,9 @@ function formatOutput(
       return compactFormatter(root);
     }
   } catch (error) {
-    throw new LintError(
-      `CSS 파싱 중 오류가 발생했습니다: ${error instanceof Error ? error.message : String(error)}`
-    );
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    logger.error('CSS parsing failed', { error: errorMessage });
+    throw new ParseError(`${VALIDATION_ERRORS.PARSE_ERROR}: ${errorMessage}`);
   }
 }
 
@@ -145,7 +106,8 @@ function formatOutput(
  *
  * @param request - 린트 요청 객체
  * @returns 린트 결과 (성공/실패, 경고, 포맷팅된 코드 포함)
- * @throws {LintError} 입력 유효성 검사 실패 또는 린트 실행 오류 시
+ * @throws {ValidationError} 입력 유효성 검사 실패 시
+ * @throws {LintError} 린트 실행 오류 시
  *
  * @example
  * ```typescript
@@ -174,6 +136,12 @@ export async function lintCode(request: LintRequest): Promise<LintResult> {
   };
 
   try {
+    logger.debug('Running Stylelint', {
+      syntax,
+      rulesCount: Object.keys(rules).length,
+      outputStyle,
+    });
+
     // Stylelint 실행
     const lintResult = await styleLint.lint(options);
 
@@ -187,10 +155,15 @@ export async function lintCode(request: LintRequest): Promise<LintResult> {
       syntax
     );
 
+    logger.info('Lint completed successfully', {
+      warningsCount: warnings.length,
+      outputLength: formattedOutput.length,
+    });
+
     // 성공 결과 반환
     return {
       success: true,
-      message: '성공',
+      message: MESSAGES.SUCCESS,
       content: {
         warnings,
         output: formattedOutput,
@@ -205,18 +178,22 @@ export async function lintCode(request: LintRequest): Promise<LintResult> {
       },
     };
   } catch (error) {
-    // LintError는 그대로 전파
-    if (error instanceof LintError) {
+    // ValidationError, ParseError는 그대로 전파
+    if (error instanceof LintError || error instanceof ParseError) {
       throw error;
     }
 
     // Stylelint 내부 오류 처리
     const errorMessage =
       error instanceof Error
-        ? `린트 실행 중 오류가 발생했습니다: ${error.message}`
-        : '알 수 없는 오류가 발생했습니다';
+        ? `${VALIDATION_ERRORS.LINT_ERROR}: ${error.message}`
+        : VALIDATION_ERRORS.UNKNOWN_ERROR;
 
-    console.error('[lintService] Stylelint error:', error);
+    logger.error('Stylelint execution failed', {
+      error: error instanceof Error ? error.message : String(error),
+      syntax,
+    });
+
     throw new LintError(errorMessage);
   }
 }

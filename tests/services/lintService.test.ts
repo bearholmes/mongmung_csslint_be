@@ -1,5 +1,6 @@
 import { describe, test, expect } from 'bun:test';
-import { lintCode, LintError } from '../../src/services/lintService';
+import { lintCode } from '../../src/services/lintService';
+import { LintError } from '../../src/errors';
 import { LintRequest } from '../../src/types';
 
 describe('lintService', () => {
