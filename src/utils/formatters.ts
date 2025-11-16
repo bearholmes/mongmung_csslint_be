@@ -1,4 +1,5 @@
 import { Root, Rule, AtRule, Comment, Declaration } from 'postcss';
+import { FORMATTING } from '../constants';
 
 /**
  * CSS 선언들을 세미콜론으로 구분된 문자열로 포맷팅
@@ -83,7 +84,7 @@ export function compactFormatter(root: Root): string {
         result += `@${atRule.name} ${atRule.params} {\n`;
         atRule.walkRules((rule: Rule) => {
           const declarations = collectDeclarations(rule);
-          result += `  ${rule.selector} { ${formatDeclarations(declarations)} }\n`;
+          result += `${FORMATTING.INDENT}${rule.selector} { ${formatDeclarations(declarations)} }\n`;
         });
         result += '}\n';
       } else {
@@ -131,11 +132,11 @@ export function nestedFormatter(root: Root): string {
    * @param indentLevel - 들여쓰기 레벨
    */
   function formatRule(rule: Rule, indentLevel: number): void {
-    const indent = '  '.repeat(indentLevel);
+    const indent = FORMATTING.INDENT.repeat(indentLevel);
     result += `${indent}${rule.selector} {\n`;
 
     rule.walkDecls((decl: Declaration) => {
-      result += `${indent}  ${decl.prop}: ${decl.value};\n`;
+      result += `${indent}${FORMATTING.INDENT}${decl.prop}: ${decl.value};\n`;
     });
 
     rule.walkRules((nestedRule: Rule) => {
@@ -151,7 +152,7 @@ export function nestedFormatter(root: Root): string {
    * @param indentLevel - 들여쓰기 레벨
    */
   function formatAtRule(atRule: AtRule, indentLevel: number): void {
-    const indent = '  '.repeat(indentLevel);
+    const indent = FORMATTING.INDENT.repeat(indentLevel);
 
     if (atRule.name === 'charset') {
       result += `${indent}@charset "utf-8";\n`;
@@ -164,7 +165,7 @@ export function nestedFormatter(root: Root): string {
     } else {
       result += `${indent}@${atRule.name} ${atRule.params} {\n`;
       atRule.walkDecls((decl: Declaration) => {
-        result += `${indent}  ${decl.prop}: ${decl.value};\n`;
+        result += `${indent}${FORMATTING.INDENT}${decl.prop}: ${decl.value};\n`;
       });
       result += `${indent}}\n`;
     }

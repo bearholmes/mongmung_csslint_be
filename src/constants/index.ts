@@ -20,6 +20,8 @@ export const SERVER_CONFIG = {
   DEFAULT_PORT: 5002,
   DEFAULT_HOST: '0.0.0.0',
   REQUEST_TIMEOUT_MS: 30000,
+  /** 최대 요청 본문 크기 (5MB) - 보안을 위한 제한 */
+  MAX_BODY_SIZE: 5 * 1024 * 1024,
 } as const;
 
 /**
@@ -82,4 +84,14 @@ export const STYLELINT_CONSTANTS = {
   MIN_RULES_COUNT: 1,
   SUPPORTED_SYNTAXES: ['css', 'html'] as const,
   SUPPORTED_OUTPUT_STYLES: ['compact', 'nested'] as const,
+} as const;
+
+/**
+ * 포맷팅 관련 상수
+ */
+export const FORMATTING = {
+  /** 들여쓰기 문자열 (스페이스 2개) */
+  INDENT: '  ',
+  /** 들여쓰기 레벨당 스페이스 수 */
+  INDENT_SIZE: 2,
 } as const;
