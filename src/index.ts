@@ -6,7 +6,8 @@ import { swagger } from '@elysiajs/swagger';
 import { handleLintRequest } from './controllers/lintController';
 import { env } from './config/env';
 import { logger } from './utils/logger';
-import { API_ROUTES, MESSAGES } from './constants';
+import { rateLimiter } from './utils/rateLimiter';
+import { API_ROUTES, MESSAGES, SERVER_CONFIG, HTTP_STATUS } from './constants';
 
 /**
  * Elysia 애플리케이션 초기화
@@ -43,6 +44,31 @@ app.use(
 );
 
 /**
+ * 보안 헤더 미들웨어
+ * XSS, Clickjacking 등의 공격 방어
+ */
+app.onAfterHandle(({ set }) => {
+  set.headers = {
+    ...set.headers,
+    // XSS 방어
+    'X-Content-Type-Options': 'nosniff',
+    'X-XSS-Protection': '1; mode=block',
+    // Clickjacking 방어
+    'X-Frame-Options': 'DENY',
+    // HTTPS 강제 (프로덕션에서만)
+    ...(env.isDev
+      ? {}
+      : {
+          'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
+        }),
+    // Referrer 정책
+    'Referrer-Policy': 'strict-origin-when-cross-origin',
+    // Permissions Policy
+    'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+  };
+});
+
+/**
  * CORS 설정
  * - 개발 환경: 기본값 '*' (모든 도메인 허용)
  * - 프로덕션: 환경 변수로 명시적 도메인 제한
@@ -64,6 +90,74 @@ app.use(
  * 정적 파일 제공 설정
  */
 app.use(staticPlugin());
+
+/**
+ * Rate Limiting 미들웨어
+ * API 남용 방지를 위한 요청 제한 (1분에 100 요청)
+ */
+app.onBeforeHandle(({ request, set }) => {
+  // 클라이언트 IP 식별
+  const clientIp =
+    request.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
+    request.headers.get('x-real-ip') ||
+    'unknown';
+
+  // Rate limit 확인
+  if (!rateLimiter.consume(clientIp)) {
+    set.status = 429; // Too Many Requests
+    const remaining = rateLimiter.remaining(clientIp);
+    set.headers = {
+      ...set.headers,
+      'X-RateLimit-Limit': '100',
+      'X-RateLimit-Remaining': String(remaining),
+      'Retry-After': '60',
+    };
+
+    logger.warn('Rate limit exceeded', {
+      clientIp,
+      path: new URL(request.url).pathname,
+    });
+
+    return {
+      success: false,
+      message: '요청 제한을 초과했습니다. 잠시 후 다시 시도해주세요.',
+      content: null,
+    };
+  }
+
+  // Rate limit 헤더 추가
+  const remaining = rateLimiter.remaining(clientIp);
+  set.headers = {
+    ...set.headers,
+    'X-RateLimit-Limit': '100',
+    'X-RateLimit-Remaining': String(remaining),
+  };
+});
+
+/**
+ * Body Size Limit 미들웨어
+ * DoS 공격 및 메모리 과다 사용 방지를 위해 요청 본문 크기 제한
+ */
+app.onBeforeHandle(({ request, set }) => {
+  const contentLength = request.headers.get('content-length');
+
+  if (contentLength) {
+    const size = parseInt(contentLength, 10);
+    if (size > SERVER_CONFIG.MAX_BODY_SIZE) {
+      set.status = HTTP_STATUS.PAYLOAD_TOO_LARGE;
+      logger.warn('Request body too large', {
+        size,
+        maxSize: SERVER_CONFIG.MAX_BODY_SIZE,
+        path: new URL(request.url).pathname,
+      });
+      return {
+        success: false,
+        message: `요청 본문 크기가 너무 큽니다. 최대 ${SERVER_CONFIG.MAX_BODY_SIZE / 1024 / 1024}MB까지 허용됩니다.`,
+        content: null,
+      };
+    }
+  }
+});
 
 /**
  * 전역 에러 핸들러

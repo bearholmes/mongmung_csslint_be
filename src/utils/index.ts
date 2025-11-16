@@ -5,3 +5,4 @@
 export * from './formatters';
 export * from './logger';
 export * from './validation';
+export * from './rateLimiter';

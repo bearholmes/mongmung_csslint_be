@@ -1,4 +1,9 @@
-import { SERVER_CONFIG, ENV_MODE } from '../constants';
+import { SERVER_CONFIG, ENV_MODE, LOG_LEVEL } from '../constants';
+
+/**
+ * 로그 레벨 타입
+ */
+export type LogLevelType = 'error' | 'warn' | 'info' | 'debug';
 
 /**
  * 환경 변수 타입 정의
@@ -14,6 +19,8 @@ export interface AppEnv {
   isDev: boolean;
   /** CORS 허용 Origin (단일 또는 배열) */
   CORS_ORIGIN: string | string[];
+  /** 로그 레벨 (error, warn, info, debug) */
+  LOG_LEVEL: LogLevelType;
 }
 
 /**
@@ -54,6 +61,26 @@ function parseCorsOrigin(nodeEnv: string): string | string[] {
 }
 
 /**
+ * 로그 레벨 파싱
+ * - 개발 환경: 기본값 'debug' (모든 로그 출력)
+ * - 프로덕션 환경: 기본값 'info' (debug 로그 제외)
+ *
+ * @param isDev - 개발 모드 여부
+ * @returns 파싱된 로그 레벨
+ */
+function parseLogLevel(isDev: boolean): LogLevelType {
+  const logLevel = process.env.LOG_LEVEL?.toLowerCase();
+  const validLevels: LogLevelType[] = ['error', 'warn', 'info', 'debug'];
+
+  if (logLevel && validLevels.includes(logLevel as LogLevelType)) {
+    return logLevel as LogLevelType;
+  }
+
+  // 기본값: 개발 환경은 debug, 프로덕션은 info
+  return isDev ? 'debug' : 'info';
+}
+
+/**
  * 환경 변수 파싱 및 검증
  *
  * @returns 검증된 환경 변수 객체
@@ -78,12 +105,16 @@ function parseEnv(): AppEnv {
   // CORS Origin 파싱
   const corsOrigin = parseCorsOrigin(nodeEnv);
 
+  // 로그 레벨 파싱
+  const logLevel = parseLogLevel(isDev);
+
   return {
     PORT: port,
     HOST: host,
     NODE_ENV: nodeEnv,
     isDev,
     CORS_ORIGIN: corsOrigin,
+    LOG_LEVEL: logLevel,
   };
 }
 
