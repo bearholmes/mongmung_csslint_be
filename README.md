@@ -1,8 +1,8 @@
 <div align="center">
 
-# 🎨 몽멍 CSS 린트
+# 🎨 Mongmung CSS 린트
 
-### 엔터프라이즈급 CSS 코드 품질 서비스
+**Stylelint 기반의 강력한 CSS 코드 분석 및 품질 개선 RESTful API 서비스**
 
 [![Bun Version](https://img.shields.io/badge/bun-v1.3.2-black?logo=bun)](https://bun.sh)
 [![Elysia](https://img.shields.io/badge/elysia-v1.4.16-blue)](https://elysiajs.com)
@@ -10,8 +10,6 @@
 [![Code Quality](https://img.shields.io/badge/quality-A%2B%20(97%2F100)-brightgreen)](./CODE_REVIEW_REPORT.md)
 [![Tests](https://img.shields.io/badge/tests-46%2F46%20passing-success)](./tests)
 [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
-
-**Stylelint 기반의 강력한 CSS 코드 분석 및 품질 개선 RESTful API 서비스**
 
 [주요 기능](#-주요-기능) • [빠른 시작](#-빠른-시작) • [API 문서](#-api-문서) • [보안](#-보안--성능) • [기여하기](#-기여하기)
 
@@ -41,11 +39,11 @@
 
 ## 🌟 개요
 
-몽멍 CSS 린트는 포괄적인 CSS 코드 품질 분석을 제공하는 프로덕션급 백엔드 서비스입니다. 최신 기술과 모범 사례를 기반으로 구축되었으며, 커스터마이징 가능한 규칙, 다양한 출력 형식, 엔터프라이즈급 보안 기능을 갖춘 실시간 CSS 린팅을 제공합니다.
+포괄적인 CSS 코드 품질 분석을 제공하는 백엔드 서비스입니다. 최신 기술과 모범 사례를 기반으로 구축되었으며, 커스터마이징 가능한 규칙, 다양한 출력 형식을 갖춘 실시간 CSS 린팅을 제공합니다.
 
 **이런 경우에 적합합니다:**
 
-- 🎯 CSS/SCSS/Vue 코드 품질 강제
+- 🎯 CSS/SCSS 코드 정책 적용
 - 🔄 CI/CD 파이프라인 통합
 - 📊 실시간 코드 분석
 - 🏢 일관된 코드 표준을 통한 팀 협업
@@ -56,11 +54,9 @@
 
 ### 핵심 기능
 
-- ✅ **다중 문법 지원** - CSS, SCSS, HTML 내장 CSS
+- ✅ **다중 문법 지원** - CSS, SCSS, HTML 인라인 스타일
 - 🎨 **유연한 포맷팅** - Compact 및 Nested 출력 스타일
 - ⚙️ **커스터마이징 가능한 규칙** - 완전한 Stylelint 규칙 설정
-- 📚 **자동 문서화** - 인터랙티브 Scalar UI
-- 🔥 **Hot Module Replacement** - 초고속 개발 환경
 
 ### 보안 & 성능
 
@@ -72,9 +68,8 @@
 
 ### 개발자 경험
 
-- 📖 **포괄적인 API 문서** - 인터랙티브 API 문서 (Scalar UI)
-- 🧪 **100% 테스트 커버리지** - 46개 테스트 전부 통과
-- 📝 **TypeScript** - 완전한 타입 안전성
+- 🔥 **Hot Module Replacement** - 초고속 개발 환경
+- 📖 **API 문서** - 인터랙티브 API 문서 (Scalar UI)
 - 🔍 **구조화된 로깅** - 쉬운 디버깅과 모니터링
 - 🎯 **에러 핸들링** - 컨텍스트가 포함된 계층적 에러 시스템
 
@@ -95,7 +90,6 @@
 ### 아키텍처 특징
 
 - **디자인 패턴**: Singleton, Factory, Strategy, Type Guard
-- **코드 품질**: A+ (97/100)
 - **에러 핸들링**: HTTP 상태 매핑이 포함된 계층적 에러 시스템
 - **모듈성**: 관심사의 명확한 분리 (MVC 패턴)
 
@@ -185,16 +179,16 @@ cp .env.example .env
 #### 핵심 설정
 
 | 변수       | 설명        | 기본값        | 필수 |
-| ---------- | ----------- | ------------- | ---- |
-| `PORT`     | 서버 포트   | `5002`        | ❌   |
-| `HOST`     | 서버 호스트 | `0.0.0.0`     | ❌   |
-| `NODE_ENV` | 환경 모드   | `development` | ❌   |
+| ---------- | ----------- | ------------- | - |
+| `PORT`     | 서버 포트   | `5002`        |  |
+| `HOST`     | 서버 호스트 | `0.0.0.0`     |  |
+| `NODE_ENV` | 환경 모드   | `development` |  |
 
 #### CORS 설정
 
 | 변수          | 설명                       | 필수               |
 | ------------- | -------------------------- | ------------------ |
-| `CORS_ORIGIN` | 허용된 출처 (쉼표로 구분) | ✅ 프로덕션에서만 |
+| `CORS_ORIGIN` | 허용된 출처 (쉼표로 구분) | ✅  |
 
 **개발 환경:**
 
@@ -234,21 +228,9 @@ LOG_LEVEL=info
 
 ### 인터랙티브 문서
 
-**`http://localhost:5002/docs`**에서 전체 인터랙티브 API 문서를 확인하세요.
+`http://localhost:5002/docs` 에서 전체 인터랙티브 API 문서를 확인하세요.
 
 ### 엔드포인트
-
-#### 상태 확인
-
-```http
-GET /
-```
-
-**응답:**
-
-```
-Hello StyleLint!
-```
 
 #### CSS 코드 린트
 
@@ -330,53 +312,6 @@ Retry-After: 60
 ```
 
 ---
-
-## 🏗 아키텍처
-
-### 프로젝트 구조
-
-```
-mongmung_csslint_be/
-├── src/
-│   ├── config/          # 설정 모듈
-│   │   ├── env.ts       # 환경 검증
-│   │   └── stylelint.ts # Stylelint 설정 팩토리
-│   ├── constants/       # 전역 상수
-│   │   └── index.ts     # HTTP 상태, 메시지 등
-│   ├── controllers/     # 요청 핸들러
-│   │   └── lintController.ts
-│   ├── errors/          # 에러 계층 구조
-│   │   └── index.ts     # AppError, ValidationError 등
-│   ├── services/        # 비즈니스 로직
-│   │   └── lintService.ts
-│   ├── types/           # TypeScript 정의
-│   │   └── index.ts
-│   ├── utils/           # 유틸리티
-│   │   ├── formatters.ts    # CSS 포매터
-│   │   ├── logger.ts        # 구조화된 로깅
-│   │   ├── rateLimiter.ts   # Token Bucket 요청 제한
-│   │   └── validation.ts    # 입력 검증
-│   └── index.ts         # 애플리케이션 진입점
-├── tests/               # 테스트 스위트
-│   ├── api.test.ts
-│   ├── config/
-│   ├── services/
-│   └── utils/
-├── public/              # 정적 자산
-├── .env.example         # 환경 템플릿
-├── CODE_REVIEW_REPORT.md # 품질 감사 보고서
-└── README.md
-```
-
-### 디자인 패턴
-
-| 패턴           | 구현                        | 위치                               |
-| -------------- | --------------------------- | ---------------------------------- |
-| **Singleton**  | 환경 설정, Logger           | `config/env.ts`, `utils/logger.ts` |
-| **Factory**    | Stylelint 설정, Logger 생성 | `config/stylelint.ts`              |
-| **Strategy**   | CSS 포매터 (compact/nested) | `utils/formatters.ts`              |
-| **Type Guard** | 에러 타입 체크              | `errors/index.ts`                  |
-| **Hierarchy**  | 에러 상속                   | `errors/index.ts`                  |
 
 ### 미들웨어 스택
 
@@ -473,22 +408,7 @@ mongmung_csslint_be/
    ```bash
    bun run typecheck
    ```
-
-### 코드 품질
-
-- **타입 안전성**: Strict TypeScript 모드 활성화
-- **테스팅**: 46개 테스트, 100% 통과율
-- **코드 리뷰**: A+ (97/100) - [보고서 보기](./CODE_REVIEW_REPORT.md)
-- **린팅**: ESLint + Prettier (선택 사항)
-
-### 새 기능 추가하기
-
-1. 기능 브랜치 생성: `git checkout -b feature/my-feature`
-2. 테스트와 함께 구현
-3. `bun test` 실행하여 확인
-4. 문서 업데이트
-5. Pull Request 제출
-
+   
 ---
 
 ## 🐳 Docker 지원
@@ -559,21 +479,6 @@ bun test tests/api.test.ts
 # 커버리지 포함 (설정된 경우)
 bun test --coverage
 ```
-
-### 테스트 구조
-
-```
-tests/
-├── api.test.ts              # 통합 테스트 (9개)
-├── config/
-│   └── stylelint.test.ts    # 설정 테스트 (11개)
-├── services/
-│   └── lintService.test.ts  # 서비스 테스트 (12개)
-└── utils/
-    └── formatters.test.ts   # 포매터 테스트 (14개)
-```
-
-**현재 커버리지**: 46/46 테스트 통과 ✅
 
 ---
 
@@ -649,18 +554,6 @@ CORS_ORIGIN=https://your-domain.com
 4. **브랜치에 푸시**: `git push origin feature/amazing-feature`
 5. **Pull Request 열기**
 
-### 개발 가이드라인
-
-- ✅ 새 기능에 대한 테스트 작성
-- ✅ TypeScript 모범 사례 준수
-- ✅ 문서 업데이트
-- ✅ 모든 테스트 통과 확인
-- ✅ 기존 코드 스타일 준수
-
-### 코드 리뷰 프로세스
-
-모든 제출물은 코드 리뷰가 필요합니다. 이를 위해 GitHub Pull Request를 사용합니다.
-
 ---
 
 ## 📄 라이선스
@@ -671,20 +564,8 @@ CORS_ORIGIN=https://your-domain.com
 
 ## 🔗 관련 프로젝트
 
-- **프론트엔드**: [mongmung_csslint_fe](https://github.com/bearholmes/mongmung_csslint_fe) - React 기반 웹 인터페이스
+- **웹 클라이언트**: [mongmung_csslint_fe](https://github.com/bearholmes/mongmung_csslint_fe) - React 기반 웹 인터페이스
 - **문서**: [CODE_REVIEW_REPORT.md](./CODE_REVIEW_REPORT.md) - 상세한 코드 품질 감사
-
----
-
-## 📊 프로젝트 현황
-
-| 지표       | 상태                 |
-| ---------- | -------------------- |
-| 코드 품질  | A+ (97/100)          |
-| 테스트     | 46/46 통과           |
-| 보안       | 프로덕션 준비 완료   |
-| 문서화     | 포괄적               |
-| 유지보수   | 활성                 |
 
 ---
 
@@ -693,7 +574,6 @@ CORS_ORIGIN=https://your-domain.com
 - [Bun](https://bun.sh) - 엄청나게 빠른 JavaScript 런타임
 - [Elysia](https://elysiajs.com) - 인체공학적 웹 프레임워크
 - [Stylelint](https://stylelint.io) - 강력한 CSS 린터
-- [PostCSS](https://postcss.org) - CSS 변환 도구
 
 ---
 

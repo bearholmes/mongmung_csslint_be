@@ -45,6 +45,55 @@ CSS 코드 품질 검사를 위한 백엔드 API 서비스입니다. Stylelint�
 
 ---
 
+## 🏗 아키텍처
+
+### 프로젝트 구조
+
+```
+mongmung_csslint_be/
+├── src/
+│   ├── config/          # 설정 모듈
+│   │   ├── env.ts       # 환경 검증
+│   │   └── stylelint.ts # Stylelint 설정 팩토리
+│   ├── constants/       # 전역 상수
+│   │   └── index.ts     # HTTP 상태, 메시지 등
+│   ├── controllers/     # 요청 핸들러
+│   │   └── lintController.ts
+│   ├── errors/          # 에러 계층 구조
+│   │   └── index.ts     # AppError, ValidationError 등
+│   ├── services/        # 비즈니스 로직
+│   │   └── lintService.ts
+│   ├── types/           # TypeScript 정의
+│   │   └── index.ts
+│   ├── utils/           # 유틸리티
+│   │   ├── formatters.ts    # CSS 포매터
+│   │   ├── logger.ts        # 구조화된 로깅
+│   │   ├── rateLimiter.ts   # Token Bucket 요청 제한
+│   │   └── validation.ts    # 입력 검증
+│   └── index.ts         # 애플리케이션 진입점
+├── tests/               # 테스트 스위트
+│   ├── api.test.ts
+│   ├── config/
+│   ├── services/
+│   └── utils/
+├── public/              # 정적 자산
+├── .env.example         # 환경 템플릿
+├── CODE_REVIEW_REPORT.md # 품질 감사 보고서
+└── README.md
+```
+
+### 디자인 패턴
+
+| 패턴           | 구현                        | 위치                               |
+| -------------- | --------------------------- | ---------------------------------- |
+| **Singleton**  | 환경 설정, Logger           | `config/env.ts`, `utils/logger.ts` |
+| **Factory**    | Stylelint 설정, Logger 생성 | `config/stylelint.ts`              |
+| **Strategy**   | CSS 포매터 (compact/nested) | `utils/formatters.ts`              |
+| **Type Guard** | 에러 타입 체크              | `errors/index.ts`                  |
+| **Hierarchy**  | 에러 상속                   | `errors/index.ts`                  |
+
+---
+
 ## 프로젝트 구조
 
 ```
