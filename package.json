@@ -13,7 +13,7 @@
     "clean": "rm -rf dist && echo 'Done.'",
     "format": "prettier . --write",
     "serve": "NODE_ENV=development bun run src/index.ts",
-    "dev": "bun --smol run src/index.ts",
+    "dev": "NODE_ENV=development bun run src/index.ts",
     "build": "bun build src/index.ts --outdir dist",
     "start": "bun run src/index.ts",
     "test": "bun test",
