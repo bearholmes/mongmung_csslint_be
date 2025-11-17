@@ -7,7 +7,7 @@
 [![Bun Version](https://img.shields.io/badge/bun-v1.3.2-black?logo=bun)](https://bun.sh)
 [![Elysia](https://img.shields.io/badge/elysia-v1.4.16-blue)](https://elysiajs.com)
 [![TypeScript](https://img.shields.io/badge/typescript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![Code Quality](https://img.shields.io/badge/quality-A%2B%20(97%2F100)-brightgreen)](./CODE_REVIEW_REPORT.md)
+[![Code Quality](<https://img.shields.io/badge/quality-A%2B%20(97%2F100)-brightgreen>)](./CODE_REVIEW_REPORT.md)
 [![Tests](https://img.shields.io/badge/tests-46%2F46%20passing-success)](./tests)
 [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
@@ -44,6 +44,7 @@
 Mongmung CSS Lint is a production-ready backend service that provides comprehensive CSS code quality analysis. Built with modern technologies and best practices, it offers real-time CSS linting with customizable rules, multiple output formats, and enterprise-grade security features.
 
 **Perfect for:**
+
 - 🎯 CSS/SCSS/Vue code quality enforcement
 - 🔄 CI/CD pipeline integration
 - 📊 Real-time code analysis
@@ -81,15 +82,15 @@ Mongmung CSS Lint is a production-ready backend service that provides comprehens
 
 ## 🛠 Tech Stack
 
-| Category | Technology | Version | Purpose |
-|----------|-----------|---------|---------|
-| **Runtime** | [Bun](https://bun.sh) | v1.3.2 | Ultra-fast JavaScript runtime |
-| **Framework** | [Elysia](https://elysiajs.com) | v1.4.16 | High-performance web framework |
-| **Linter** | [Stylelint](https://stylelint.io) | v15.11.0 | CSS/SCSS linting engine |
-| **CSS Parser** | [PostCSS](https://postcss.org) | v8.4.x | CSS transformation |
-| **Language** | [TypeScript](https://typescriptlang.org) | v5.0+ | Type-safe development |
-| **Testing** | Bun Test | Built-in | Fast native testing |
-| **API Docs** | Scalar UI | v3.0 | Interactive API documentation |
+| Category       | Technology                               | Version  | Purpose                        |
+| -------------- | ---------------------------------------- | -------- | ------------------------------ |
+| **Runtime**    | [Bun](https://bun.sh)                    | v1.3.2   | Ultra-fast JavaScript runtime  |
+| **Framework**  | [Elysia](https://elysiajs.com)           | v1.4.16  | High-performance web framework |
+| **Linter**     | [Stylelint](https://stylelint.io)        | v15.11.0 | CSS/SCSS linting engine        |
+| **CSS Parser** | [PostCSS](https://postcss.org)           | v8.4.x   | CSS transformation             |
+| **Language**   | [TypeScript](https://typescriptlang.org) | v5.0+    | Type-safe development          |
+| **Testing**    | Bun Test                                 | Built-in | Fast native testing            |
+| **API Docs**   | Scalar UI                                | v3.0     | Interactive API documentation  |
 
 ### Architecture Highlights
 
@@ -125,6 +126,7 @@ bun run dev
 Server will be running at `http://localhost:5002` 🎉
 
 **Test it:**
+
 ```bash
 curl -X POST http://localhost:5002/api/lint \
   -H "Content-Type: application/json" \
@@ -151,12 +153,14 @@ curl -X POST http://localhost:5002/api/lint \
 ### Steps
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/bearholmes/mongmung_csslint_be.git
    cd mongmung_csslint_be
    ```
 
 2. **Install dependencies**
+
    ```bash
    bun install
    ```
@@ -180,25 +184,27 @@ cp .env.example .env
 
 #### Core Settings
 
-| Variable | Description | Default | Required |
-|----------|-------------|---------|----------|
-| `PORT` | Server port | `5002` | ❌ |
-| `HOST` | Server host | `0.0.0.0` | ❌ |
-| `NODE_ENV` | Environment mode | `development` | ❌ |
+| Variable   | Description      | Default       | Required |
+| ---------- | ---------------- | ------------- | -------- |
+| `PORT`     | Server port      | `5002`        | ❌       |
+| `HOST`     | Server host      | `0.0.0.0`     | ❌       |
+| `NODE_ENV` | Environment mode | `development` | ❌       |
 
 #### CORS Configuration
 
-| Variable | Description | Required |
-|----------|-------------|----------|
+| Variable      | Description                       | Required           |
+| ------------- | --------------------------------- | ------------------ |
 | `CORS_ORIGIN` | Allowed origins (comma-separated) | ✅ Production only |
 
 **Development:**
+
 ```bash
 NODE_ENV=development
 CORS_ORIGIN=http://localhost:3000
 ```
 
 **Production:**
+
 ```bash
 NODE_ENV=production
 CORS_ORIGIN=https://your-domain.com,https://api.your-domain.com
@@ -208,11 +214,12 @@ CORS_ORIGIN=https://your-domain.com,https://api.your-domain.com
 
 #### Logging Configuration
 
-| Variable | Description | Values | Default |
-|----------|-------------|--------|---------|
+| Variable    | Description       | Values                           | Default                         |
+| ----------- | ----------------- | -------------------------------- | ------------------------------- |
 | `LOG_LEVEL` | Logging verbosity | `error`, `warn`, `info`, `debug` | `debug` (dev)<br/>`info` (prod) |
 
 **Example:**
+
 ```bash
 # Development - all logs
 LOG_LEVEL=debug
@@ -238,6 +245,7 @@ GET /
 ```
 
 **Response:**
+
 ```
 Hello StyleLint!
 ```
@@ -249,6 +257,7 @@ POST /api/lint
 ```
 
 **Request Body:**
+
 ```json
 {
   "code": "body {\n  color: #FFF;\n  margin: 0;\n}",
@@ -266,14 +275,15 @@ POST /api/lint
 
 **Parameters:**
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `code` | string | ✅ | CSS code to lint |
-| `syntax` | `"css"` \| `"html"` | ✅ | Syntax type |
-| `config.rules` | object | ✅ | Stylelint rules |
-| `config.outputStyle` | `"nested"` \| `"compact"` | ❌ | Output format |
+| Field                | Type                      | Required | Description      |
+| -------------------- | ------------------------- | -------- | ---------------- |
+| `code`               | string                    | ✅       | CSS code to lint |
+| `syntax`             | `"css"` \| `"html"`       | ✅       | Syntax type      |
+| `config.rules`       | object                    | ✅       | Stylelint rules  |
+| `config.outputStyle` | `"nested"` \| `"compact"` | ❌       | Output format    |
 
 **Success Response (200):**
+
 ```json
 {
   "success": true,
@@ -303,15 +313,16 @@ POST /api/lint
 
 **Error Responses:**
 
-| Status | Code | Description |
-|--------|------|-------------|
-| 400 | `VALIDATION_ERROR` | Invalid input (empty code, invalid syntax) |
-| 413 | `PAYLOAD_TOO_LARGE` | Request body exceeds 5MB |
-| 422 | `PARSE_ERROR` | CSS parsing failed |
-| 429 | - | Rate limit exceeded (100 req/min) |
-| 500 | `INTERNAL_ERROR` | Server error |
+| Status | Code                | Description                                |
+| ------ | ------------------- | ------------------------------------------ |
+| 400    | `VALIDATION_ERROR`  | Invalid input (empty code, invalid syntax) |
+| 413    | `PAYLOAD_TOO_LARGE` | Request body exceeds 5MB                   |
+| 422    | `PARSE_ERROR`       | CSS parsing failed                         |
+| 429    | -                   | Rate limit exceeded (100 req/min)          |
+| 500    | `INTERNAL_ERROR`    | Server error                               |
 
 **Rate Limit Headers:**
+
 ```http
 X-RateLimit-Limit: 100
 X-RateLimit-Remaining: 95
@@ -359,13 +370,13 @@ mongmung_csslint_be/
 
 ### Design Patterns
 
-| Pattern | Implementation | Location |
-|---------|---------------|----------|
-| **Singleton** | Environment config, Logger | `config/env.ts`, `utils/logger.ts` |
-| **Factory** | Stylelint config, Logger creation | `config/stylelint.ts` |
-| **Strategy** | CSS formatters (compact/nested) | `utils/formatters.ts` |
-| **Type Guard** | Error type checking | `errors/index.ts` |
-| **Hierarchy** | Error inheritance | `errors/index.ts` |
+| Pattern        | Implementation                    | Location                           |
+| -------------- | --------------------------------- | ---------------------------------- |
+| **Singleton**  | Environment config, Logger        | `config/env.ts`, `utils/logger.ts` |
+| **Factory**    | Stylelint config, Logger creation | `config/stylelint.ts`              |
+| **Strategy**   | CSS formatters (compact/nested)   | `utils/formatters.ts`              |
+| **Type Guard** | Error type checking               | `errors/index.ts`                  |
+| **Hierarchy**  | Error inheritance                 | `errors/index.ts`                  |
 
 ### Middleware Stack
 
@@ -383,12 +394,14 @@ mongmung_csslint_be/
 ### Security Features
 
 #### 🛡️ Rate Limiting
+
 - **Algorithm**: Token Bucket
 - **Limit**: 100 requests per minute per IP
 - **Headers**: `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `Retry-After`
 - **Memory Management**: Automatic cleanup every 60 seconds
 
 #### 🔐 Security Headers
+
 - `X-Content-Type-Options: nosniff` - Prevents MIME sniffing
 - `X-XSS-Protection: 1; mode=block` - XSS protection
 - `X-Frame-Options: DENY` - Clickjacking prevention
@@ -397,11 +410,13 @@ mongmung_csslint_be/
 - `Permissions-Policy` - Feature restrictions
 
 #### 📦 Request Protection
+
 - **Max Body Size**: 5MB
 - **Response**: HTTP 413 (Payload Too Large)
 - **Logging**: Size and path logged for monitoring
 
 #### 🌐 CORS
+
 - **Development**: Flexible (default `*`)
 - **Production**: Strict whitelist required
 - **Validation**: Origin verification at application startup
@@ -409,16 +424,19 @@ mongmung_csslint_be/
 ### Performance Optimizations
 
 #### 📊 Logging
+
 - **Environment-based levels**: Debug (dev) / Info (prod)
 - **Priority filtering**: Reduces I/O in production
 - **Structured format**: JSON-compatible context
 
 #### 💾 Memory Management
+
 - **Rate Limiter Cleanup**: Removes stale entries (2x window)
 - **Version Caching**: Stylelint version cached at startup
 - **Efficient Parsing**: Reusable PostCSS instances
 
 #### ⚡ Runtime
+
 - **Bun**: 3x faster than Node.js
 - **Hot Reload**: Instant updates in development
 - **Native Testing**: Built-in test runner
@@ -429,22 +447,24 @@ mongmung_csslint_be/
 
 ### Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `bun run dev` | Start development server (HMR disabled) |
-| `bun run serve` | Start with Hot Module Replacement |
-| `bun run build` | Build for production |
-| `bun run test` | Run all tests |
-| `bun run test:watch` | Watch mode testing |
+| Command              | Description                             |
+| -------------------- | --------------------------------------- |
+| `bun run dev`        | Start development server (HMR disabled) |
+| `bun run serve`      | Start with Hot Module Replacement       |
+| `bun run build`      | Build for production                    |
+| `bun run test`       | Run all tests                           |
+| `bun run test:watch` | Watch mode testing                      |
 
 ### Development Workflow
 
 1. **Start the server**
+
    ```bash
    bun run dev
    ```
 
 2. **Run tests in watch mode**
+
    ```bash
    bun run test:watch
    ```
@@ -476,11 +496,13 @@ mongmung_csslint_be/
 ### Using Docker
 
 **Build image:**
+
 ```bash
 docker build -t mongmung-csslint:latest .
 ```
 
 **Run container:**
+
 ```bash
 docker run -p 5002:5002 \
   -e NODE_ENV=production \
@@ -491,23 +513,26 @@ docker run -p 5002:5002 \
 ### Using Docker Compose
 
 **Start services:**
+
 ```bash
 docker-compose up -d
 ```
 
 **Stop services:**
+
 ```bash
 docker-compose down
 ```
 
 **docker-compose.yml example:**
+
 ```yaml
 version: '3.8'
 services:
   api:
     build: .
     ports:
-      - "5002:5002"
+      - '5002:5002'
     environment:
       NODE_ENV: production
       CORS_ORIGIN: https://your-domain.com
@@ -574,6 +599,7 @@ PORT=5003 bun run dev
 **Problem**: Browser blocks requests
 
 **Solution**: Add your origin to `CORS_ORIGIN`
+
 ```bash
 CORS_ORIGIN=http://localhost:3000
 ```
@@ -583,6 +609,7 @@ CORS_ORIGIN=http://localhost:3000
 **Problem**: `CORS_ORIGIN is required in production`
 
 **Solution**: Set explicit origins
+
 ```bash
 NODE_ENV=production
 CORS_ORIGIN=https://your-domain.com
@@ -643,13 +670,13 @@ This project is licensed under the **MIT License** - see the [LICENSE](./LICENSE
 
 ## 📊 Project Status
 
-| Metric | Status |
-|--------|--------|
-| Code Quality | A+ (97/100) |
-| Tests | 46/46 passing |
-| Security | Production-ready |
-| Documentation | Comprehensive |
-| Maintenance | Active |
+| Metric        | Status           |
+| ------------- | ---------------- |
+| Code Quality  | A+ (97/100)      |
+| Tests         | 46/46 passing    |
+| Security      | Production-ready |
+| Documentation | Comprehensive    |
+| Maintenance   | Active           |
 
 ---
 

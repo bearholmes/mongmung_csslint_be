@@ -11,6 +11,7 @@
 ### 1. 환경 변수 타입 안전성 (Type-Safe Environment)
 
 **이전:**
+
 ```typescript
 const PORT = Number(process.env.PORT) || 5002;
 const HOST = '0.0.0.0';
@@ -18,6 +19,7 @@ const isDev = process.env.NODE_ENV === 'development';
 ```
 
 **개선 후:**
+
 ```typescript
 // src/config/env.ts
 export interface AppEnv {
@@ -39,6 +41,7 @@ export const env = parseEnv(); // 싱글톤
 ```
 
 **장점:**
+
 - ✅ 시작 시점에 환경 변수 검증
 - ✅ 타입 안전한 접근
 - ✅ 중앙화된 관리
@@ -48,12 +51,14 @@ export const env = parseEnv(); // 싱글톤
 ### 2. 상수 중앙 관리 (Constants Management)
 
 **이전:**
+
 ```typescript
-set.status = 400;  // 매직 넘버
-console.error('[lintService] Error');  // 하드코딩 문자열
+set.status = 400; // 매직 넘버
+console.error('[lintService] Error'); // 하드코딩 문자열
 ```
 
 **개선 후:**
+
 ```typescript
 // src/constants/index.ts
 export const HTTP_STATUS = {
@@ -77,6 +82,7 @@ set.status = HTTP_STATUS.BAD_REQUEST;
 ```
 
 **장점:**
+
 - ✅ 매직 넘버/문자열 제거
 - ✅ 일관성 있는 메시지 관리
 - ✅ 타입 추론 지원 (`as const`)
@@ -87,12 +93,14 @@ set.status = HTTP_STATUS.BAD_REQUEST;
 ### 3. 로거 추상화 (Logger Abstraction)
 
 **이전:**
+
 ```typescript
 console.error('[lintService] Error:', error);
 console.info('Server started');
 ```
 
 **개선 후:**
+
 ```typescript
 // src/utils/logger.ts
 export interface Logger {
@@ -110,6 +118,7 @@ logger.info('Server started', { port, host });
 ```
 
 **장점:**
+
 - ✅ 구조화된 로깅
 - ✅ 타임스탬프 자동 추가
 - ✅ 컨텍스트 메타데이터 지원
@@ -121,6 +130,7 @@ logger.info('Server started', { port, host });
 ### 4. 계층화된 에러 시스템 (Hierarchical Error System)
 
 **이전:**
+
 ```typescript
 export class LintError extends Error {
   constructor(message: string) {
@@ -136,6 +146,7 @@ if (error instanceof LintError) {
 ```
 
 **개선 후:**
+
 ```typescript
 // src/errors/index.ts
 export class AppError extends Error {
@@ -161,6 +172,7 @@ export function toAppError(error: unknown): AppError
 ```
 
 **장점:**
+
 - ✅ 에러 타입별 계층 구조
 - ✅ HTTP 상태 코드 자동 매핑
 - ✅ 에러 코드 체계화
@@ -173,6 +185,7 @@ export function toAppError(error: unknown): AppError
 ### 5. 유효성 검증 함수 분리 (Validation Utilities)
 
 **이전:**
+
 ```typescript
 // lintService.ts 내부에 검증 로직 혼재
 if (!rules || Object.keys(rules).length < 1) {
@@ -184,18 +197,24 @@ if (!['css', 'html'].includes(syntax)) {
 ```
 
 **개선 후:**
+
 ```typescript
 // src/utils/validation.ts
-export function validateCode(code: unknown): asserts code is string
-export function validateSyntax(syntax: unknown): asserts syntax is CssSyntax
-export function validateRules(rules: unknown): asserts rules is Record<string, unknown>
-export function validateOutputStyle(outputStyle: unknown): asserts outputStyle is OutputStyle
+export function validateCode(code: unknown): asserts code is string;
+export function validateSyntax(syntax: unknown): asserts syntax is CssSyntax;
+export function validateRules(
+  rules: unknown,
+): asserts rules is Record<string, unknown>;
+export function validateOutputStyle(
+  outputStyle: unknown,
+): asserts outputStyle is OutputStyle;
 
 // 사용
-validateLintRequest(request);  // 간결한 검증
+validateLintRequest(request); // 간결한 검증
 ```
 
 **장점:**
+
 - ✅ 단일 책임 원칙 (SRP)
 - ✅ 재사용 가능한 검증 로직
 - ✅ TypeScript `asserts` 활용한 타입 좁히기
@@ -206,6 +225,7 @@ validateLintRequest(request);  // 간결한 검증
 ### 6. Barrel Exports
 
 **이전:**
+
 ```typescript
 import { logger } from './utils/logger';
 import { validateCode } from './utils/validation';
@@ -213,6 +233,7 @@ import { compactFormatter } from './utils/formatters';
 ```
 
 **개선 후:**
+
 ```typescript
 // src/utils/index.ts
 export * from './formatters';
@@ -224,6 +245,7 @@ import { logger, validateCode, compactFormatter } from './utils';
 ```
 
 **장점:**
+
 - ✅ Import 경로 단순화
 - ✅ 모듈 경계 명확화
 - ✅ 리팩토링 시 유연성
@@ -232,14 +254,14 @@ import { logger, validateCode, compactFormatter } from './utils';
 
 ## 📊 개선 전후 비교
 
-| 항목 | 개선 전 | 개선 후 | 개선율 |
-|------|---------|---------|--------|
-| **환경 변수 타입 안전성** | 없음 | 100% | +100% |
-| **매직 넘버/문자열** | 많음 | 0개 | +100% |
-| **로거 추상화** | 직접 console 사용 | Logger 인터페이스 | +100% |
-| **에러 계층 구조** | 단일 LintError | 5개 에러 클래스 | +400% |
-| **유효성 검증 재사용** | 인라인 | 분리된 함수 | +100% |
-| **테스트 통과율** | 46/46 | 46/46 | 100% ✅ |
+| 항목                      | 개선 전           | 개선 후           | 개선율  |
+| ------------------------- | ----------------- | ----------------- | ------- |
+| **환경 변수 타입 안전성** | 없음              | 100%              | +100%   |
+| **매직 넘버/문자열**      | 많음              | 0개               | +100%   |
+| **로거 추상화**           | 직접 console 사용 | Logger 인터페이스 | +100%   |
+| **에러 계층 구조**        | 단일 LintError    | 5개 에러 클래스   | +400%   |
+| **유효성 검증 재사용**    | 인라인            | 분리된 함수       | +100%   |
+| **테스트 통과율**         | 46/46             | 46/46             | 100% ✅ |
 
 ---
 
@@ -274,19 +296,24 @@ src/
 ## 🎨 적용된 디자인 패턴
 
 ### 1. **Singleton Pattern**
+
 - `env` (환경 변수)
 - `logger` (로거 인스턴스)
 
 ### 2. **Factory Pattern**
+
 - `createLogger(type)` - 다양한 로거 생성
 
 ### 3. **Strategy Pattern**
+
 - `compactFormatter` / `nestedFormatter` - 포맷팅 전략
 
 ### 4. **Type Guard Pattern**
+
 - `isAppError()`, `isValidSyntax()` - 타입 안전성
 
 ### 5. **Error Hierarchy Pattern**
+
 - `AppError` → `ValidationError`, `LintError`, etc.
 
 ---
@@ -294,14 +321,16 @@ src/
 ## 💡 현대적 TypeScript 기법
 
 ### 1. Const Assertions
+
 ```typescript
 export const HTTP_STATUS = {
   OK: 200,
   BAD_REQUEST: 400,
-} as const;  // 리터럴 타입 유지
+} as const; // 리터럴 타입 유지
 ```
 
 ### 2. Type Assertions (asserts)
+
 ```typescript
 export function validateCode(code: unknown): asserts code is string {
   // 이후 code는 자동으로 string 타입
@@ -309,13 +338,13 @@ export function validateCode(code: unknown): asserts code is string {
 ```
 
 ### 3. Discriminated Unions (향후 적용 가능)
+
 ```typescript
-type Result<T, E> =
-  | { success: true; data: T }
-  | { success: false; error: E };
+type Result<T, E> = { success: true; data: T } | { success: false; error: E };
 ```
 
 ### 4. Readonly & Const
+
 ```typescript
 export const DEFAULT_PLUGINS = [...] as const;
 // readonly string[] 타입
@@ -326,16 +355,19 @@ export const DEFAULT_PLUGINS = [...] as const;
 ## 📈 성능 및 유지보수성 개선
 
 ### 성능
+
 - ✅ 환경 변수 캐싱 (매 요청마다 파싱 방지)
 - ✅ 상수 객체 as const (런타임 최적화)
 
 ### 유지보수성
+
 - ✅ 단일 책임 원칙 (SRP) 준수
 - ✅ 의존성 주입 가능 구조
 - ✅ 테스트 용이성 향상
 - ✅ 에러 추적 개선 (구조화된 로깅)
 
 ### 확장성
+
 - ✅ 새로운 로거 쉽게 교체
 - ✅ 새로운 에러 타입 추가 용이
 - ✅ 유효성 검증 규칙 확장 가능

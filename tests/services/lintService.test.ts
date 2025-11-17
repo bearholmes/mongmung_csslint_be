@@ -14,7 +14,9 @@ describe('lintService', () => {
         },
       };
 
-      await expect(lintCode(request)).rejects.toThrow('CSS 코드가 비어있습니다');
+      await expect(lintCode(request)).rejects.toThrow(
+        'CSS 코드가 비어있습니다',
+      );
     });
 
     test('should throw error for whitespace-only code', async () => {
@@ -26,7 +28,9 @@ describe('lintService', () => {
         },
       };
 
-      await expect(lintCode(request)).rejects.toThrow('CSS 코드가 비어있습니다');
+      await expect(lintCode(request)).rejects.toThrow(
+        'CSS 코드가 비어있습니다',
+      );
     });
 
     test('should throw error for invalid syntax', async () => {
@@ -38,7 +42,9 @@ describe('lintService', () => {
         },
       };
 
-      await expect(lintCode(request)).rejects.toThrow('지원하지 않는 문법입니다');
+      await expect(lintCode(request)).rejects.toThrow(
+        '지원하지 않는 문법입니다',
+      );
     });
 
     test('should throw error for empty rules', async () => {
@@ -50,7 +56,9 @@ describe('lintService', () => {
         },
       };
 
-      await expect(lintCode(request)).rejects.toThrow('최소 하나 이상의 린트 규칙이 필요합니다');
+      await expect(lintCode(request)).rejects.toThrow(
+        '최소 하나 이상의 린트 규칙이 필요합니다',
+      );
     });
 
     test('should throw error for invalid output style', async () => {
@@ -63,7 +71,9 @@ describe('lintService', () => {
         },
       };
 
-      await expect(lintCode(request)).rejects.toThrow('지원하지 않는 출력 스타일입니다');
+      await expect(lintCode(request)).rejects.toThrow(
+        '지원하지 않는 출력 스타일입니다',
+      );
     });
   });
 

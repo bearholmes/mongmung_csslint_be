@@ -20,7 +20,9 @@ export function isValidSyntax(syntax: string): syntax is CssSyntax {
  * 값이 유효한 출력 스타일인지 확인
  */
 export function isValidOutputStyle(style: string): style is OutputStyle {
-  return STYLELINT_CONSTANTS.SUPPORTED_OUTPUT_STYLES.includes(style as OutputStyle);
+  return STYLELINT_CONSTANTS.SUPPORTED_OUTPUT_STYLES.includes(
+    style as OutputStyle,
+  );
 }
 
 /**
@@ -55,7 +57,7 @@ export function validateCode(code: unknown): asserts code is string {
 export function validateSyntax(syntax: unknown): asserts syntax is CssSyntax {
   if (typeof syntax !== 'string' || !isValidSyntax(syntax)) {
     throw new ValidationError(
-      `${VALIDATION_ERRORS.INVALID_SYNTAX}. 사용 가능한 문법: ${STYLELINT_CONSTANTS.SUPPORTED_SYNTAXES.join(', ')}`
+      `${VALIDATION_ERRORS.INVALID_SYNTAX}. 사용 가능한 문법: ${STYLELINT_CONSTANTS.SUPPORTED_SYNTAXES.join(', ')}`,
     );
   }
 }
@@ -66,7 +68,9 @@ export function validateSyntax(syntax: unknown): asserts syntax is CssSyntax {
  * @param rules - 검증할 규칙
  * @throws {ValidationError} 유효하지 않은 규칙
  */
-export function validateRules(rules: unknown): asserts rules is Record<string, unknown> {
+export function validateRules(
+  rules: unknown,
+): asserts rules is Record<string, unknown> {
   if (typeof rules !== 'object' || rules === null) {
     throw new ValidationError(VALIDATION_ERRORS.INVALID_RULES_TYPE);
   }
@@ -82,14 +86,16 @@ export function validateRules(rules: unknown): asserts rules is Record<string, u
  * @param outputStyle - 검증할 출력 스타일
  * @throws {ValidationError} 유효하지 않은 출력 스타일
  */
-export function validateOutputStyle(outputStyle: unknown): asserts outputStyle is OutputStyle | undefined {
+export function validateOutputStyle(
+  outputStyle: unknown,
+): asserts outputStyle is OutputStyle | undefined {
   if (outputStyle === undefined) {
     return;
   }
 
   if (typeof outputStyle !== 'string' || !isValidOutputStyle(outputStyle)) {
     throw new ValidationError(
-      `${VALIDATION_ERRORS.INVALID_OUTPUT_STYLE}. 사용 가능한 스타일: ${STYLELINT_CONSTANTS.SUPPORTED_OUTPUT_STYLES.join(', ')}`
+      `${VALIDATION_ERRORS.INVALID_OUTPUT_STYLE}. 사용 가능한 스타일: ${STYLELINT_CONSTANTS.SUPPORTED_OUTPUT_STYLES.join(', ')}`,
     );
   }
 }

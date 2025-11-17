@@ -46,7 +46,11 @@ class ConsoleLogger implements Logger {
     return LOG_LEVEL_PRIORITY[level] <= LOG_LEVEL_PRIORITY[this.minLevel];
   }
 
-  private formatMessage(level: string, message: string, context?: LogContext): string {
+  private formatMessage(
+    level: string,
+    message: string,
+    context?: LogContext,
+  ): string {
     const timestamp = new Date().toISOString();
     const prefix = `[${timestamp}] [${level.toUpperCase()}]`;
 
@@ -110,7 +114,10 @@ export const logger: Logger = new ConsoleLogger(getLogLevelFromEnv());
  * @param logLevel - 로그 레벨 (기본값: 환경 변수 또는 debug/info)
  * @returns Logger 인스턴스
  */
-export function createLogger(type: 'console' = 'console', logLevel?: LogLevelType): Logger {
+export function createLogger(
+  type: 'console' = 'console',
+  logLevel?: LogLevelType,
+): Logger {
   const level = logLevel || getLogLevelFromEnv();
   switch (type) {
     case 'console':

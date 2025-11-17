@@ -4,7 +4,9 @@ import app from '../src/index';
 describe('API Integration Tests', () => {
   describe('GET /', () => {
     test('should return ASCII art welcome message', async () => {
-      const response = await app.handle(new Request('http://localhost/')).then(res => res.text());
+      const response = await app
+        .handle(new Request('http://localhost/'))
+        .then((res) => res.text());
 
       // Check for ASCII art content
       expect(response).toBeTruthy();
@@ -221,7 +223,9 @@ describe('API Integration Tests', () => {
 
   describe('Error Handling', () => {
     test('should return 404 for unknown routes', async () => {
-      const response = await app.handle(new Request('http://localhost/unknown'));
+      const response = await app.handle(
+        new Request('http://localhost/unknown'),
+      );
       const text = await response.text();
 
       expect(response.status).toBe(404);

@@ -45,7 +45,7 @@ function parseCorsOrigin(nodeEnv: string): string | string[] {
   // 프로덕션 환경: 명시적 설정 필수
   if (!corsOrigin || corsOrigin.trim().length === 0) {
     throw new Error(
-      'CORS_ORIGIN is required in production. Set it to a specific domain or comma-separated list of domains.'
+      'CORS_ORIGIN is required in production. Set it to a specific domain or comma-separated list of domains.',
     );
   }
 
@@ -87,14 +87,18 @@ function parseLogLevel(isDev: boolean): LogLevelType {
  * @throws {Error} 환경 변수가 유효하지 않은 경우
  */
 function parseEnv(): AppEnv {
-  const port = process.env.PORT ? Number(process.env.PORT) : SERVER_CONFIG.DEFAULT_PORT;
+  const port = process.env.PORT
+    ? Number(process.env.PORT)
+    : SERVER_CONFIG.DEFAULT_PORT;
   const host = process.env.HOST || SERVER_CONFIG.DEFAULT_HOST;
   const nodeEnv = process.env.NODE_ENV || ENV_MODE.DEVELOPMENT;
   const isDev = nodeEnv === ENV_MODE.DEVELOPMENT;
 
   // 포트 유효성 검증
   if (isNaN(port) || port < 1 || port > 65535) {
-    throw new Error(`Invalid PORT: ${process.env.PORT}. Must be between 1 and 65535.`);
+    throw new Error(
+      `Invalid PORT: ${process.env.PORT}. Must be between 1 and 65535.`,
+    );
   }
 
   // 호스트 유효성 검증 (간단한 검증)
@@ -132,5 +136,7 @@ export function logEnvInfo(): void {
   console.info(`  HOST: ${env.HOST}`);
   console.info(`  NODE_ENV: ${env.NODE_ENV}`);
   console.info(`  isDev: ${env.isDev}`);
-  console.info(`  CORS_ORIGIN: ${Array.isArray(env.CORS_ORIGIN) ? env.CORS_ORIGIN.join(', ') : env.CORS_ORIGIN}`);
+  console.info(
+    `  CORS_ORIGIN: ${Array.isArray(env.CORS_ORIGIN) ? env.CORS_ORIGIN.join(', ') : env.CORS_ORIGIN}`,
+  );
 }

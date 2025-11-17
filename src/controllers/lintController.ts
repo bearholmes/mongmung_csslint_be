@@ -38,7 +38,9 @@ interface ElysiaContext {
  * }
  * ```
  */
-export async function handleLintRequest(context: ElysiaContext): Promise<LintResult> {
+export async function handleLintRequest(
+  context: ElysiaContext,
+): Promise<LintResult> {
   const { body, set } = context;
 
   try {

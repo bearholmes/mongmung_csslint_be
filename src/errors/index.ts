@@ -23,7 +23,7 @@ export class AppError extends Error {
     message: string,
     statusCode: number = HTTP_STATUS.INTERNAL_SERVER_ERROR,
     code: string = 'INTERNAL_ERROR',
-    context?: Record<string, unknown>
+    context?: Record<string, unknown>,
   ) {
     super(message);
     this.name = this.constructor.name;
@@ -82,7 +82,10 @@ export class ParseError extends AppError {
  * 찾을 수 없음 에러 (404 Not Found)
  */
 export class NotFoundError extends AppError {
-  constructor(message: string = 'Resource not found', context?: Record<string, unknown>) {
+  constructor(
+    message: string = 'Resource not found',
+    context?: Record<string, unknown>,
+  ) {
     super(message, HTTP_STATUS.NOT_FOUND, 'NOT_FOUND', context);
   }
 }
@@ -91,8 +94,16 @@ export class NotFoundError extends AppError {
  * 내부 서버 에러 (500 Internal Server Error)
  */
 export class InternalServerError extends AppError {
-  constructor(message: string = 'Internal server error', context?: Record<string, unknown>) {
-    super(message, HTTP_STATUS.INTERNAL_SERVER_ERROR, 'INTERNAL_ERROR', context);
+  constructor(
+    message: string = 'Internal server error',
+    context?: Record<string, unknown>,
+  ) {
+    super(
+      message,
+      HTTP_STATUS.INTERNAL_SERVER_ERROR,
+      'INTERNAL_ERROR',
+      context,
+    );
   }
 }
 

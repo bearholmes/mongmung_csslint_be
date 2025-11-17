@@ -1,5 +1,9 @@
 import { describe, test, expect } from 'bun:test';
-import { createStylelintConfig, DEFAULT_EXTENDS, DEFAULT_PLUGINS } from '../../src/config/stylelint';
+import {
+  createStylelintConfig,
+  DEFAULT_EXTENDS,
+  DEFAULT_PLUGINS,
+} from '../../src/config/stylelint';
 
 describe('stylelint config', () => {
   describe('createStylelintConfig', () => {
@@ -26,7 +30,7 @@ describe('stylelint config', () => {
     });
 
     test('should preserve user rules without mutation', () => {
-      const rules = { 'color-hex-case': 'lower', 'indentation': 2 };
+      const rules = { 'color-hex-case': 'lower', indentation: 2 };
       const originalRules = { ...rules };
       const config = createStylelintConfig(rules, 'css');
 

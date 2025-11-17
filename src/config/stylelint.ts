@@ -17,7 +17,10 @@ export const DEFAULT_EXTENDS = [
  * - stylelint-order: CSS 속성 정렬
  * - stylelint-stylistic: 스타일 관련 규칙
  */
-export const DEFAULT_PLUGINS = ['stylelint-order', 'stylelint-stylistic'] as const;
+export const DEFAULT_PLUGINS = [
+  'stylelint-order',
+  'stylelint-stylistic',
+] as const;
 
 /**
  * 문법별 커스텀 파서 매핑
@@ -44,7 +47,7 @@ const SYNTAX_PARSER_MAP: Record<CssSyntax, string | undefined> = {
  */
 export function createStylelintConfig(
   rules: Record<string, StylelintRuleValue>,
-  syntax: CssSyntax
+  syntax: CssSyntax,
 ): StylelintConfig {
   const config: StylelintConfig = {
     extends: [...DEFAULT_EXTENDS],

@@ -51,7 +51,9 @@ export class RateLimiter {
 
     // 토큰 재충전 계산
     const elapsed = now - entry.lastRefill;
-    const refillTokens = Math.floor((elapsed / this.windowMs) * this.maxRequests);
+    const refillTokens = Math.floor(
+      (elapsed / this.windowMs) * this.maxRequests,
+    );
 
     if (refillTokens > 0) {
       entry.tokens = Math.min(this.maxRequests, entry.tokens + refillTokens);
@@ -80,7 +82,9 @@ export class RateLimiter {
 
     const now = Date.now();
     const elapsed = now - entry.lastRefill;
-    const refillTokens = Math.floor((elapsed / this.windowMs) * this.maxRequests);
+    const refillTokens = Math.floor(
+      (elapsed / this.windowMs) * this.maxRequests,
+    );
 
     return Math.min(this.maxRequests, entry.tokens + refillTokens);
   }

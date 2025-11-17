@@ -41,7 +41,7 @@ app.use(
       ],
     },
     exclude: [API_ROUTES.ROOT],
-  })
+  }),
 );
 
 /**
@@ -60,7 +60,8 @@ app.onAfterHandle(({ set }) => {
     ...(env.isDev
       ? {}
       : {
-          'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
+          'Strict-Transport-Security':
+            'max-age=31536000; includeSubDomains; preload',
         }),
     // Referrer 정책
     'Referrer-Policy': 'strict-origin-when-cross-origin',
@@ -84,7 +85,7 @@ app.use(
     origin: env.CORS_ORIGIN,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
-  })
+  }),
 );
 
 /**
@@ -209,19 +210,20 @@ app.post(API_ROUTES.LINT, handleLintRequest, {
         t.String(),
         t.Any({
           description: 'Stylelint 규칙 값',
-        })
+        }),
       ),
       outputStyle: t.Optional(
         t.String({
           description: '출력 포맷 스타일 (compact 또는 nested)',
-        })
+        }),
       ),
     }),
   }),
   detail: {
     tags: ['Lint'],
     summary: 'CSS 코드 린팅',
-    description: 'CSS 코드를 분석하고 Stylelint 규칙에 따라 자동 수정 및 경고를 반환합니다.',
+    description:
+      'CSS 코드를 분석하고 Stylelint 규칙에 따라 자동 수정 및 경고를 반환합니다.',
   },
 });
 
@@ -230,7 +232,9 @@ app.post(API_ROUTES.LINT, handleLintRequest, {
  */
 app.listen(env.PORT, ({ hostname, port }) => {
   logger.info(`Elysia server running at http://${hostname}:${port}`);
-  logger.info(`API documentation: http://${hostname}:${port}${API_ROUTES.DOCS}`);
+  logger.info(
+    `API documentation: http://${hostname}:${port}${API_ROUTES.DOCS}`,
+  );
   if (env.isDev) {
     logger.info('Development mode with HMR enabled');
   }

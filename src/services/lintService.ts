@@ -92,7 +92,7 @@ function extractWarnings(lintResult: styleLint.LintResult): StylelintWarning[] {
 function formatOutput(
   lintedCode: string,
   outputStyle: OutputStyle | undefined,
-  syntax: CssSyntax
+  syntax: CssSyntax,
 ): string {
   // HTML 문법이거나 출력 스타일이 지정되지 않은 경우 원본 반환
   if (syntax === 'html' || !outputStyle) {
@@ -165,7 +165,7 @@ export async function lintCode(request: LintRequest): Promise<LintResult> {
     const formattedOutput = formatOutput(
       lintResult.output || code,
       outputStyle as OutputStyle | undefined,
-      syntax
+      syntax,
     );
 
     logger.info('Lint completed successfully', {
