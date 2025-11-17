@@ -22,10 +22,11 @@ const app = new Elysia({
 });
 
 /**
- * Swagger 문서화 설정
+ * API 문서화 설정 (Scalar UI)
  */
 app.use(
   swagger({
+    path: '/docs',
     documentation: {
       info: {
         title: 'StyleLint API Documentation',
@@ -229,7 +230,7 @@ app.post(API_ROUTES.LINT, handleLintRequest, {
  */
 app.listen(env.PORT, ({ hostname, port }) => {
   logger.info(`Elysia server running at http://${hostname}:${port}`);
-  logger.info(`Swagger documentation: http://${hostname}:${port}${API_ROUTES.SWAGGER}`);
+  logger.info(`API documentation: http://${hostname}:${port}${API_ROUTES.DOCS}`);
   if (env.isDev) {
     logger.info('Development mode with HMR enabled');
   }

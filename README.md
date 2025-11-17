@@ -58,7 +58,7 @@ Mongmung CSS Lint is a production-ready backend service that provides comprehens
 - ✅ **Multi-Syntax Support** - CSS, SCSS, HTML-embedded CSS
 - 🎨 **Flexible Formatting** - Compact and nested output styles
 - ⚙️ **Customizable Rules** - Full Stylelint rule configuration
-- 📚 **Auto Documentation** - Interactive Swagger UI
+- 📚 **Auto Documentation** - Interactive Scalar UI
 - 🔥 **Hot Module Replacement** - Lightning-fast development
 
 ### Security & Performance
@@ -71,7 +71,7 @@ Mongmung CSS Lint is a production-ready backend service that provides comprehens
 
 ### Developer Experience
 
-- 📖 **Comprehensive API Docs** - Full Swagger documentation
+- 📖 **Comprehensive API Docs** - Interactive API documentation (Scalar UI)
 - 🧪 **100% Test Coverage** - 46 passing tests
 - 📝 **TypeScript** - Full type safety
 - 🔍 **Structured Logging** - Easy debugging and monitoring
@@ -89,7 +89,7 @@ Mongmung CSS Lint is a production-ready backend service that provides comprehens
 | **CSS Parser** | [PostCSS](https://postcss.org) | v8.4.x | CSS transformation |
 | **Language** | [TypeScript](https://typescriptlang.org) | v5.0+ | Type-safe development |
 | **Testing** | Bun Test | Built-in | Fast native testing |
-| **API Docs** | Swagger/OpenAPI | v3.0 | Interactive documentation |
+| **API Docs** | Scalar UI | v3.0 | Interactive API documentation |
 
 ### Architecture Highlights
 
@@ -227,7 +227,7 @@ LOG_LEVEL=info
 
 ### Interactive Documentation
 
-Visit **`http://localhost:5002/swagger`** for full interactive API documentation.
+Visit **`http://localhost:5002/docs`** for full interactive API documentation.
 
 ### Endpoints
 

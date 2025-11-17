@@ -31,7 +31,7 @@ export const SERVER_CONFIG = {
 export const API_ROUTES = {
   ROOT: '/',
   FAVICON: '/favicon.ico',
-  SWAGGER: '/swagger',
+  DOCS: '/docs',
   LINT: '/api/lint',
 } as const;
 
