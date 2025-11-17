@@ -32,6 +32,7 @@ export const API_ROUTES = {
   ROOT: '/',
   FAVICON: '/favicon.ico',
   DOCS: '/docs',
+  HEALTH: '/health',
   LINT: '/api/lint',
 } as const;
 

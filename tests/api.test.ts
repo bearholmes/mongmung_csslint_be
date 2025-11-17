@@ -14,6 +14,34 @@ describe('API Integration Tests', () => {
     });
   });
 
+  describe('GET /health', () => {
+    test('should return health status', async () => {
+      const response = await app.handle(new Request('http://localhost/health'));
+      const data = await response.json();
+
+      expect(response.status).toBe(200);
+      expect(data.status).toBe('ok');
+      expect(data.timestamp).toBeTruthy();
+      expect(typeof data.uptime).toBe('number');
+      expect(data.environment).toBeTruthy();
+    });
+
+    test('should return valid ISO timestamp', async () => {
+      const response = await app.handle(new Request('http://localhost/health'));
+      const data = await response.json();
+
+      const timestamp = new Date(data.timestamp);
+      expect(timestamp.toString()).not.toBe('Invalid Date');
+    });
+
+    test('should return positive uptime', async () => {
+      const response = await app.handle(new Request('http://localhost/health'));
+      const data = await response.json();
+
+      expect(data.uptime).toBeGreaterThan(0);
+    });
+  });
+
   describe('POST /api/lint', () => {
     test('should lint valid CSS successfully', async () => {
       const request = new Request('http://localhost/api/lint', {

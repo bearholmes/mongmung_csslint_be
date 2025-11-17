@@ -35,6 +35,10 @@ app.use(
       },
       tags: [
         {
+          name: 'Health',
+          description: '서버 상태 확인',
+        },
+        {
           name: 'Lint',
           description: 'CSS 린팅 관련 API',
         },
@@ -191,8 +195,26 @@ app.onError(({ code, error, set }) => {
 // Favicon
 app.get(API_ROUTES.FAVICON, () => Bun.file('public/favicon.ico'));
 
-// 헬스 체크 엔드포인트
+// 웰컴 메시지
 app.get(API_ROUTES.ROOT, () => figlet.textSync('Hello StyleLint!'));
+
+// 헬스 체크 엔드포인트
+app.get(
+  API_ROUTES.HEALTH,
+  () => ({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: env.NODE_ENV,
+  }),
+  {
+    detail: {
+      tags: ['Health'],
+      summary: '서버 상태 확인',
+      description: '서버가 정상 작동 중인지 확인합니다. 로드 밸런서 및 모니터링 도구에서 사용됩니다.',
+    },
+  }
+);
 
 // 린트 API 엔드포인트
 app.post(API_ROUTES.LINT, handleLintRequest, {
@@ -235,6 +257,7 @@ app.listen(env.PORT, ({ hostname, port }) => {
   logger.info(
     `API documentation: http://${hostname}:${port}${API_ROUTES.DOCS}`,
   );
+  logger.info(`Health check: http://${hostname}:${port}${API_ROUTES.HEALTH}`);
   if (env.isDev) {
     logger.info('Development mode with HMR enabled');
   }
