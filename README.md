@@ -1,131 +1,131 @@
 <div align="center">
 
-# 🎨 Mongmung CSS Lint
+# 🎨 몽멍 CSS 린트
 
-### Enterprise-grade CSS Code Quality Service
+### 엔터프라이즈급 CSS 코드 품질 서비스
 
 [![Bun Version](https://img.shields.io/badge/bun-v1.3.2-black?logo=bun)](https://bun.sh)
 [![Elysia](https://img.shields.io/badge/elysia-v1.4.16-blue)](https://elysiajs.com)
 [![TypeScript](https://img.shields.io/badge/typescript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![Code Quality](<https://img.shields.io/badge/quality-A%2B%20(97%2F100)-brightgreen>)](./CODE_REVIEW_REPORT.md)
+[![Code Quality](https://img.shields.io/badge/quality-A%2B%20(97%2F100)-brightgreen)](./CODE_REVIEW_REPORT.md)
 [![Tests](https://img.shields.io/badge/tests-46%2F46%20passing-success)](./tests)
 [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
-**Powerful RESTful API service for CSS code analysis and quality improvement powered by Stylelint**
+**Stylelint 기반의 강력한 CSS 코드 분석 및 품질 개선 RESTful API 서비스**
 
-[Features](#-features) • [Quick Start](#-quick-start) • [API Docs](#-api-documentation) • [Security](#-security--performance) • [Contributing](#-contributing)
+[주요 기능](#-주요-기능) • [빠른 시작](#-빠른-시작) • [API 문서](#-api-문서) • [보안](#-보안--성능) • [기여하기](#-기여하기)
 
 </div>
 
 ---
 
-## 📖 Table of Contents
+## 📖 목차
 
-- [Overview](#-overview)
-- [Features](#-features)
-- [Tech Stack](#-tech-stack)
-- [Quick Start](#-quick-start)
-- [Installation](#-installation)
-- [Configuration](#-configuration)
-- [API Documentation](#-api-documentation)
-- [Architecture](#-architecture)
-- [Security & Performance](#-security--performance)
-- [Development](#-development)
-- [Docker Support](#-docker-support)
-- [Testing](#-testing)
-- [Troubleshooting](#-troubleshooting)
-- [Contributing](#-contributing)
-- [License](#-license)
-
----
-
-## 🌟 Overview
-
-Mongmung CSS Lint is a production-ready backend service that provides comprehensive CSS code quality analysis. Built with modern technologies and best practices, it offers real-time CSS linting with customizable rules, multiple output formats, and enterprise-grade security features.
-
-**Perfect for:**
-
-- 🎯 CSS/SCSS/Vue code quality enforcement
-- 🔄 CI/CD pipeline integration
-- 📊 Real-time code analysis
-- 🏢 Team collaboration with consistent code standards
+- [개요](#-개요)
+- [주요 기능](#-주요-기능)
+- [기술 스택](#-기술-스택)
+- [빠른 시작](#-빠른-시작)
+- [설치](#-설치)
+- [환경 설정](#-환경-설정)
+- [API 문서](#-api-문서)
+- [아키텍처](#-아키텍처)
+- [보안 & 성능](#-보안--성능)
+- [개발](#-개발)
+- [Docker 지원](#-docker-지원)
+- [테스트](#-테스트)
+- [문제 해결](#-문제-해결)
+- [기여하기](#-기여하기)
+- [라이선스](#-라이선스)
 
 ---
 
-## ✨ Features
+## 🌟 개요
 
-### Core Capabilities
+몽멍 CSS 린트는 포괄적인 CSS 코드 품질 분석을 제공하는 프로덕션급 백엔드 서비스입니다. 최신 기술과 모범 사례를 기반으로 구축되었으며, 커스터마이징 가능한 규칙, 다양한 출력 형식, 엔터프라이즈급 보안 기능을 갖춘 실시간 CSS 린팅을 제공합니다.
 
-- ✅ **Multi-Syntax Support** - CSS, SCSS, HTML-embedded CSS
-- 🎨 **Flexible Formatting** - Compact and nested output styles
-- ⚙️ **Customizable Rules** - Full Stylelint rule configuration
-- 📚 **Auto Documentation** - Interactive Scalar UI
-- 🔥 **Hot Module Replacement** - Lightning-fast development
+**이런 경우에 적합합니다:**
 
-### Security & Performance
-
-- 🛡️ **Rate Limiting** - Token bucket algorithm (100 req/min per IP)
-- 🔒 **Security Headers** - XSS, Clickjacking protection
-- 📦 **Request Size Limit** - 5MB max to prevent DoS attacks
-- 🚀 **Optimized Logging** - Environment-based log levels
-- 💾 **Memory Management** - Automatic cleanup for long-running processes
-
-### Developer Experience
-
-- 📖 **Comprehensive API Docs** - Interactive API documentation (Scalar UI)
-- 🧪 **100% Test Coverage** - 46 passing tests
-- 📝 **TypeScript** - Full type safety
-- 🔍 **Structured Logging** - Easy debugging and monitoring
-- 🎯 **Error Handling** - Hierarchical error system with context
+- 🎯 CSS/SCSS/Vue 코드 품질 강제
+- 🔄 CI/CD 파이프라인 통합
+- 📊 실시간 코드 분석
+- 🏢 일관된 코드 표준을 통한 팀 협업
 
 ---
 
-## 🛠 Tech Stack
+## ✨ 주요 기능
 
-| Category       | Technology                               | Version  | Purpose                        |
-| -------------- | ---------------------------------------- | -------- | ------------------------------ |
-| **Runtime**    | [Bun](https://bun.sh)                    | v1.3.2   | Ultra-fast JavaScript runtime  |
-| **Framework**  | [Elysia](https://elysiajs.com)           | v1.4.16  | High-performance web framework |
-| **Linter**     | [Stylelint](https://stylelint.io)        | v15.11.0 | CSS/SCSS linting engine        |
-| **CSS Parser** | [PostCSS](https://postcss.org)           | v8.4.x   | CSS transformation             |
-| **Language**   | [TypeScript](https://typescriptlang.org) | v5.0+    | Type-safe development          |
-| **Testing**    | Bun Test                                 | Built-in | Fast native testing            |
-| **API Docs**   | Scalar UI                                | v3.0     | Interactive API documentation  |
+### 핵심 기능
 
-### Architecture Highlights
+- ✅ **다중 문법 지원** - CSS, SCSS, HTML 내장 CSS
+- 🎨 **유연한 포맷팅** - Compact 및 Nested 출력 스타일
+- ⚙️ **커스터마이징 가능한 규칙** - 완전한 Stylelint 규칙 설정
+- 📚 **자동 문서화** - 인터랙티브 Scalar UI
+- 🔥 **Hot Module Replacement** - 초고속 개발 환경
 
-- **Design Patterns**: Singleton, Factory, Strategy, Type Guard
-- **Code Quality**: A+ (97/100)
-- **Error Handling**: Hierarchical error system with HTTP status mapping
-- **Modularity**: Clear separation of concerns (MVC pattern)
+### 보안 & 성능
+
+- 🛡️ **요청 제한** - Token Bucket 알고리즘 (IP당 100req/분)
+- 🔒 **보안 헤더** - XSS, Clickjacking 방어
+- 📦 **요청 크기 제한** - DoS 공격 방지를 위한 5MB 제한
+- 🚀 **최적화된 로깅** - 환경 기반 로그 레벨
+- 💾 **메모리 관리** - 장시간 실행 프로세스 자동 정리
+
+### 개발자 경험
+
+- 📖 **포괄적인 API 문서** - 인터랙티브 API 문서 (Scalar UI)
+- 🧪 **100% 테스트 커버리지** - 46개 테스트 전부 통과
+- 📝 **TypeScript** - 완전한 타입 안전성
+- 🔍 **구조화된 로깅** - 쉬운 디버깅과 모니터링
+- 🎯 **에러 핸들링** - 컨텍스트가 포함된 계층적 에러 시스템
 
 ---
 
-## 🚀 Quick Start
+## 🛠 기술 스택
 
-Get up and running in less than 2 minutes:
+| 분류           | 기술                                       | 버전     | 용도                     |
+| -------------- | ------------------------------------------ | -------- | ------------------------ |
+| **런타임**     | [Bun](https://bun.sh)                      | v1.3.2   | 초고속 JavaScript 런타임 |
+| **프레임워크** | [Elysia](https://elysiajs.com)             | v1.4.16  | 고성능 웹 프레임워크     |
+| **린터**       | [Stylelint](https://stylelint.io)          | v15.11.0 | CSS/SCSS 린팅 엔진       |
+| **CSS 파서**   | [PostCSS](https://postcss.org)             | v8.4.x   | CSS 변환                 |
+| **언어**       | [TypeScript](https://typescriptlang.org)   | v5.0+    | 타입 안전 개발           |
+| **테스팅**     | Bun Test                                   | Built-in | 빠른 네이티브 테스팅     |
+| **API 문서**   | Scalar UI                                  | v3.0     | 인터랙티브 API 문서      |
+
+### 아키텍처 특징
+
+- **디자인 패턴**: Singleton, Factory, Strategy, Type Guard
+- **코드 품질**: A+ (97/100)
+- **에러 핸들링**: HTTP 상태 매핑이 포함된 계층적 에러 시스템
+- **모듈성**: 관심사의 명확한 분리 (MVC 패턴)
+
+---
+
+## 🚀 빠른 시작
+
+2분 이내에 실행 가능:
 
 ```bash
-# 1. Install Bun (if not already installed)
+# 1. Bun 설치 (아직 설치하지 않은 경우)
 curl -fsSL https://bun.sh/install | bash
 
-# 2. Clone the repository
+# 2. 저장소 복제
 git clone https://github.com/bearholmes/mongmung_csslint_be.git
 cd mongmung_csslint_be
 
-# 3. Install dependencies
+# 3. 의존성 설치
 bun install
 
-# 4. Set up environment
+# 4. 환경 설정
 cp .env.example .env
 
-# 5. Start development server
+# 5. 개발 서버 시작
 bun run dev
 ```
 
-Server will be running at `http://localhost:5002` 🎉
+서버가 `http://localhost:5002`에서 실행됩니다 🎉
 
-**Test it:**
+**테스트:**
 
 ```bash
 curl -X POST http://localhost:5002/api/lint \
@@ -142,121 +142,121 @@ curl -X POST http://localhost:5002/api/lint \
 
 ---
 
-## 📦 Installation
+## 📦 설치
 
-### Prerequisites
+### 사전 요구사항
 
-- **Bun** v1.0+ ([Install Guide](https://bun.sh/docs/installation))
-- **Node.js** v18+ (for some peer dependencies)
-- **Git** for version control
+- **Bun** v1.0+ ([설치 가이드](https://bun.sh/docs/installation))
+- **Node.js** v18+ (일부 peer dependencies용)
+- **Git** 버전 관리
 
-### Steps
+### 설치 단계
 
-1. **Clone the repository**
+1. **저장소 복제**
 
    ```bash
    git clone https://github.com/bearholmes/mongmung_csslint_be.git
    cd mongmung_csslint_be
    ```
 
-2. **Install dependencies**
+2. **의존성 설치**
 
    ```bash
    bun install
    ```
 
-3. **Verify installation**
+3. **설치 확인**
    ```bash
    bun run test
    ```
 
 ---
 
-## ⚙️ Configuration
+## ⚙️ 환경 설정
 
-### Environment Variables
+### 환경 변수
 
-Create `.env` file from the template:
+템플릿에서 `.env` 파일 생성:
 
 ```bash
 cp .env.example .env
 ```
 
-#### Core Settings
+#### 핵심 설정
 
-| Variable   | Description      | Default       | Required |
-| ---------- | ---------------- | ------------- | -------- |
-| `PORT`     | Server port      | `5002`        | ❌       |
-| `HOST`     | Server host      | `0.0.0.0`     | ❌       |
-| `NODE_ENV` | Environment mode | `development` | ❌       |
+| 변수       | 설명        | 기본값        | 필수 |
+| ---------- | ----------- | ------------- | ---- |
+| `PORT`     | 서버 포트   | `5002`        | ❌   |
+| `HOST`     | 서버 호스트 | `0.0.0.0`     | ❌   |
+| `NODE_ENV` | 환경 모드   | `development` | ❌   |
 
-#### CORS Configuration
+#### CORS 설정
 
-| Variable      | Description                       | Required           |
-| ------------- | --------------------------------- | ------------------ |
-| `CORS_ORIGIN` | Allowed origins (comma-separated) | ✅ Production only |
+| 변수          | 설명                       | 필수               |
+| ------------- | -------------------------- | ------------------ |
+| `CORS_ORIGIN` | 허용된 출처 (쉼표로 구분) | ✅ 프로덕션에서만 |
 
-**Development:**
+**개발 환경:**
 
 ```bash
 NODE_ENV=development
 CORS_ORIGIN=http://localhost:3000
 ```
 
-**Production:**
+**프로덕션:**
 
 ```bash
 NODE_ENV=production
 CORS_ORIGIN=https://your-domain.com,https://api.your-domain.com
 ```
 
-⚠️ **Security Note**: In production, `CORS_ORIGIN` is **required** and must specify exact domains. Wildcard (`*`) is not allowed.
+⚠️ **보안 참고사항**: 프로덕션에서는 `CORS_ORIGIN`이 **필수**이며 정확한 도메인을 지정해야 합니다. 와일드카드(`*`)는 허용되지 않습니다.
 
-#### Logging Configuration
+#### 로깅 설정
 
-| Variable    | Description       | Values                           | Default                         |
-| ----------- | ----------------- | -------------------------------- | ------------------------------- |
-| `LOG_LEVEL` | Logging verbosity | `error`, `warn`, `info`, `debug` | `debug` (dev)<br/>`info` (prod) |
+| 변수        | 설명          | 값                               | 기본값                               |
+| ----------- | ------------- | -------------------------------- | ------------------------------------ |
+| `LOG_LEVEL` | 로깅 상세도   | `error`, `warn`, `info`, `debug` | `debug` (개발)<br/>`info` (프로덕션) |
 
-**Example:**
+**예시:**
 
 ```bash
-# Development - all logs
+# 개발 환경 - 모든 로그
 LOG_LEVEL=debug
 
-# Production - info and above only
+# 프로덕션 - info 이상만
 LOG_LEVEL=info
 ```
 
 ---
 
-## 📡 API Documentation
+## 📡 API 문서
 
-### Interactive Documentation
+### 인터랙티브 문서
 
-Visit **`http://localhost:5002/docs`** for full interactive API documentation.
+**`http://localhost:5002/docs`**에서 전체 인터랙티브 API 문서를 확인하세요.
 
-### Endpoints
+### 엔드포인트
 
-#### Health Check
+#### 상태 확인
 
 ```http
 GET /
 ```
 
-**Response:**
+**응답:**
 
 ```
 Hello StyleLint!
 ```
 
-#### Lint CSS Code
+#### CSS 코드 린트
 
 ```http
 POST /api/lint
 ```
 
-**Request Body:**
+**요청 본문:**
 
 ```json
 {
@@ -273,16 +273,16 @@ POST /api/lint
 }
 ```
 
-**Parameters:**
+**파라미터:**
 
-| Field                | Type                      | Required | Description      |
-| -------------------- | ------------------------- | -------- | ---------------- |
-| `code`               | string                    | ✅       | CSS code to lint |
-| `syntax`             | `"css"` \| `"html"`       | ✅       | Syntax type      |
-| `config.rules`       | object                    | ✅       | Stylelint rules  |
-| `config.outputStyle` | `"nested"` \| `"compact"` | ❌       | Output format    |
+| 필드                 | 타입                      | 필수 | 설명            |
+| -------------------- | ------------------------- | ---- | --------------- |
+| `code`               | string                    | ✅   | 린트할 CSS 코드 |
+| `syntax`             | `"css"` \| `"html"`       | ✅   | 문법 타입       |
+| `config.rules`       | object                    | ✅   | Stylelint 규칙  |
+| `config.outputStyle` | `"nested"` \| `"compact"` | ❌   | 출력 형식       |
 
-**Success Response (200):**
+**성공 응답 (200):**
 
 ```json
 {
@@ -311,17 +311,17 @@ POST /api/lint
 }
 ```
 
-**Error Responses:**
+**에러 응답:**
 
-| Status | Code                | Description                                |
-| ------ | ------------------- | ------------------------------------------ |
-| 400    | `VALIDATION_ERROR`  | Invalid input (empty code, invalid syntax) |
-| 413    | `PAYLOAD_TOO_LARGE` | Request body exceeds 5MB                   |
-| 422    | `PARSE_ERROR`       | CSS parsing failed                         |
-| 429    | -                   | Rate limit exceeded (100 req/min)          |
-| 500    | `INTERNAL_ERROR`    | Server error                               |
+| 상태 | 코드                | 설명                               |
+| ---- | ------------------- | ---------------------------------- |
+| 400  | `VALIDATION_ERROR`  | 잘못된 입력 (빈 코드, 잘못된 문법) |
+| 413  | `PAYLOAD_TOO_LARGE` | 요청 본문이 5MB 초과               |
+| 422  | `PARSE_ERROR`       | CSS 파싱 실패                      |
+| 429  | -                   | 요청 제한 초과 (100 req/분)        |
+| 500  | `INTERNAL_ERROR`    | 서버 오류                          |
 
-**Rate Limit Headers:**
+**요청 제한 헤더:**
 
 ```http
 X-RateLimit-Limit: 100
@@ -331,177 +331,177 @@ Retry-After: 60
 
 ---
 
-## 🏗 Architecture
+## 🏗 아키텍처
 
-### Project Structure
+### 프로젝트 구조
 
 ```
 mongmung_csslint_be/
 ├── src/
-│   ├── config/          # Configuration modules
-│   │   ├── env.ts       # Environment validation
-│   │   └── stylelint.ts # Stylelint config factory
-│   ├── constants/       # Global constants
-│   │   └── index.ts     # HTTP status, messages, etc.
-│   ├── controllers/     # Request handlers
+│   ├── config/          # 설정 모듈
+│   │   ├── env.ts       # 환경 검증
+│   │   └── stylelint.ts # Stylelint 설정 팩토리
+│   ├── constants/       # 전역 상수
+│   │   └── index.ts     # HTTP 상태, 메시지 등
+│   ├── controllers/     # 요청 핸들러
 │   │   └── lintController.ts
-│   ├── errors/          # Error hierarchy
-│   │   └── index.ts     # AppError, ValidationError, etc.
-│   ├── services/        # Business logic
+│   ├── errors/          # 에러 계층 구조
+│   │   └── index.ts     # AppError, ValidationError 등
+│   ├── services/        # 비즈니스 로직
 │   │   └── lintService.ts
-│   ├── types/           # TypeScript definitions
+│   ├── types/           # TypeScript 정의
 │   │   └── index.ts
-│   ├── utils/           # Utilities
-│   │   ├── formatters.ts    # CSS formatters
-│   │   ├── logger.ts        # Structured logging
-│   │   ├── rateLimiter.ts   # Token bucket rate limiter
-│   │   └── validation.ts    # Input validators
-│   └── index.ts         # Application entry point
-├── tests/               # Test suites
+│   ├── utils/           # 유틸리티
+│   │   ├── formatters.ts    # CSS 포매터
+│   │   ├── logger.ts        # 구조화된 로깅
+│   │   ├── rateLimiter.ts   # Token Bucket 요청 제한
+│   │   └── validation.ts    # 입력 검증
+│   └── index.ts         # 애플리케이션 진입점
+├── tests/               # 테스트 스위트
 │   ├── api.test.ts
 │   ├── config/
 │   ├── services/
 │   └── utils/
-├── public/              # Static assets
-├── .env.example         # Environment template
-├── CODE_REVIEW_REPORT.md # Quality audit report
+├── public/              # 정적 자산
+├── .env.example         # 환경 템플릿
+├── CODE_REVIEW_REPORT.md # 품질 감사 보고서
 └── README.md
 ```
 
-### Design Patterns
+### 디자인 패턴
 
-| Pattern        | Implementation                    | Location                           |
-| -------------- | --------------------------------- | ---------------------------------- |
-| **Singleton**  | Environment config, Logger        | `config/env.ts`, `utils/logger.ts` |
-| **Factory**    | Stylelint config, Logger creation | `config/stylelint.ts`              |
-| **Strategy**   | CSS formatters (compact/nested)   | `utils/formatters.ts`              |
-| **Type Guard** | Error type checking               | `errors/index.ts`                  |
-| **Hierarchy**  | Error inheritance                 | `errors/index.ts`                  |
+| 패턴           | 구현                        | 위치                               |
+| -------------- | --------------------------- | ---------------------------------- |
+| **Singleton**  | 환경 설정, Logger           | `config/env.ts`, `utils/logger.ts` |
+| **Factory**    | Stylelint 설정, Logger 생성 | `config/stylelint.ts`              |
+| **Strategy**   | CSS 포매터 (compact/nested) | `utils/formatters.ts`              |
+| **Type Guard** | 에러 타입 체크              | `errors/index.ts`                  |
+| **Hierarchy**  | 에러 상속                   | `errors/index.ts`                  |
 
-### Middleware Stack
+### 미들웨어 스택
 
-1. **Security Headers** → XSS, Clickjacking protection
-2. **CORS** → Origin validation
-3. **Rate Limiting** → IP-based throttling
-4. **Body Size Limit** → DoS prevention
-5. **Request Validation** → Input sanitization
-6. **Error Handler** → Structured error responses
+1. **보안 헤더** → XSS, Clickjacking 방어
+2. **CORS** → Origin 검증
+3. **요청 제한** → IP 기반 throttling
+4. **본문 크기 제한** → DoS 방지
+5. **요청 검증** → 입력 정제
+6. **에러 핸들러** → 구조화된 에러 응답
 
 ---
 
-## 🔒 Security & Performance
+## 🔒 보안 & 성능
 
-### Security Features
+### 보안 기능
 
-#### 🛡️ Rate Limiting
+#### 🛡️ 요청 제한
 
-- **Algorithm**: Token Bucket
-- **Limit**: 100 requests per minute per IP
-- **Headers**: `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `Retry-After`
-- **Memory Management**: Automatic cleanup every 60 seconds
+- **알고리즘**: Token Bucket
+- **제한**: IP당 분당 100 요청
+- **헤더**: `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `Retry-After`
+- **메모리 관리**: 60초마다 자동 정리
 
-#### 🔐 Security Headers
+#### 🔐 보안 헤더
 
-- `X-Content-Type-Options: nosniff` - Prevents MIME sniffing
-- `X-XSS-Protection: 1; mode=block` - XSS protection
-- `X-Frame-Options: DENY` - Clickjacking prevention
-- `Strict-Transport-Security` - HTTPS enforcement (production)
+- `X-Content-Type-Options: nosniff` - MIME 스니핑 방지
+- `X-XSS-Protection: 1; mode=block` - XSS 보호
+- `X-Frame-Options: DENY` - Clickjacking 방지
+- `Strict-Transport-Security` - HTTPS 강제 (프로덕션)
 - `Referrer-Policy: strict-origin-when-cross-origin`
-- `Permissions-Policy` - Feature restrictions
+- `Permissions-Policy` - 기능 제한
 
-#### 📦 Request Protection
+#### 📦 요청 보호
 
-- **Max Body Size**: 5MB
-- **Response**: HTTP 413 (Payload Too Large)
-- **Logging**: Size and path logged for monitoring
+- **최대 본문 크기**: 5MB
+- **응답**: HTTP 413 (Payload Too Large)
+- **로깅**: 모니터링을 위한 크기 및 경로 기록
 
 #### 🌐 CORS
 
-- **Development**: Flexible (default `*`)
-- **Production**: Strict whitelist required
-- **Validation**: Origin verification at application startup
+- **개발**: 유연함 (기본값 `*`)
+- **프로덕션**: 엄격한 화이트리스트 필수
+- **검증**: 애플리케이션 시작 시 Origin 검증
 
-### Performance Optimizations
+### 성능 최적화
 
-#### 📊 Logging
+#### 📊 로깅
 
-- **Environment-based levels**: Debug (dev) / Info (prod)
-- **Priority filtering**: Reduces I/O in production
-- **Structured format**: JSON-compatible context
+- **환경 기반 레벨**: Debug (개발) / Info (프로덕션)
+- **우선순위 필터링**: 프로덕션에서 I/O 감소
+- **구조화된 형식**: JSON 호환 컨텍스트
 
-#### 💾 Memory Management
+#### 💾 메모리 관리
 
-- **Rate Limiter Cleanup**: Removes stale entries (2x window)
-- **Version Caching**: Stylelint version cached at startup
-- **Efficient Parsing**: Reusable PostCSS instances
+- **Rate Limiter 정리**: 오래된 항목 제거 (2배 윈도우)
+- **버전 캐싱**: 시작 시 Stylelint 버전 캐싱
+- **효율적인 파싱**: 재사용 가능한 PostCSS 인스턴스
 
-#### ⚡ Runtime
+#### ⚡ 런타임
 
-- **Bun**: 3x faster than Node.js
-- **Hot Reload**: Instant updates in development
-- **Native Testing**: Built-in test runner
+- **Bun**: Node.js보다 3배 빠름
+- **Hot Reload**: 개발 중 즉시 업데이트
+- **네이티브 테스팅**: 내장 테스트 러너
 
 ---
 
-## 💻 Development
+## 💻 개발
 
-### Available Scripts
+### 사용 가능한 스크립트
 
-| Command              | Description                             |
-| -------------------- | --------------------------------------- |
-| `bun run dev`        | Start development server (HMR disabled) |
-| `bun run serve`      | Start with Hot Module Replacement       |
-| `bun run build`      | Build for production                    |
-| `bun run test`       | Run all tests                           |
-| `bun run test:watch` | Watch mode testing                      |
+| 명령어               | 설명                          |
+| -------------------- | ----------------------------- |
+| `bun run dev`        | 개발 서버 시작 (HMR 활성화)   |
+| `bun run serve`      | 개발 서버 시작 (dev와 동일)   |
+| `bun run build`      | 프로덕션 빌드                 |
+| `bun run test`       | 모든 테스트 실행              |
+| `bun run test:watch` | Watch 모드 테스팅             |
 
-### Development Workflow
+### 개발 워크플로우
 
-1. **Start the server**
+1. **서버 시작**
 
    ```bash
    bun run dev
    ```
 
-2. **Run tests in watch mode**
+2. **Watch 모드로 테스트 실행**
 
    ```bash
    bun run test:watch
    ```
 
-3. **Check types**
+3. **타입 체크**
    ```bash
    bun run typecheck
    ```
 
-### Code Quality
+### 코드 품질
 
-- **Type Safety**: Strict TypeScript mode enabled
-- **Testing**: 46 tests, 100% pass rate
-- **Code Review**: A+ (97/100) - [View Report](./CODE_REVIEW_REPORT.md)
-- **Linting**: ESLint + Prettier (optional)
+- **타입 안전성**: Strict TypeScript 모드 활성화
+- **테스팅**: 46개 테스트, 100% 통과율
+- **코드 리뷰**: A+ (97/100) - [보고서 보기](./CODE_REVIEW_REPORT.md)
+- **린팅**: ESLint + Prettier (선택 사항)
 
-### Adding New Features
+### 새 기능 추가하기
 
-1. Create feature branch: `git checkout -b feature/my-feature`
-2. Implement with tests
-3. Run `bun test` to verify
-4. Update documentation
-5. Submit pull request
+1. 기능 브랜치 생성: `git checkout -b feature/my-feature`
+2. 테스트와 함께 구현
+3. `bun test` 실행하여 확인
+4. 문서 업데이트
+5. Pull Request 제출
 
 ---
 
-## 🐳 Docker Support
+## 🐳 Docker 지원
 
-### Using Docker
+### Docker 사용
 
-**Build image:**
+**이미지 빌드:**
 
 ```bash
 docker build -t mongmung-csslint:latest .
 ```
 
-**Run container:**
+**컨테이너 실행:**
 
 ```bash
 docker run -p 5002:5002 \
@@ -510,21 +510,21 @@ docker run -p 5002:5002 \
   mongmung-csslint:latest
 ```
 
-### Using Docker Compose
+### Docker Compose 사용
 
-**Start services:**
+**서비스 시작:**
 
 ```bash
 docker-compose up -d
 ```
 
-**Stop services:**
+**서비스 중지:**
 
 ```bash
 docker-compose down
 ```
 
-**docker-compose.yml example:**
+**docker-compose.yml 예시:**
 
 ```yaml
 version: '3.8'
@@ -542,157 +542,165 @@ services:
 
 ---
 
-## 🧪 Testing
+## 🧪 테스트
 
-### Run Tests
+### 테스트 실행
 
 ```bash
-# All tests
+# 모든 테스트
 bun test
 
-# Watch mode
+# Watch 모드
 bun test --watch
 
-# Specific file
+# 특정 파일
 bun test tests/api.test.ts
 
-# With coverage (if configured)
+# 커버리지 포함 (설정된 경우)
 bun test --coverage
 ```
 
-### Test Structure
+### 테스트 구조
 
 ```
 tests/
-├── api.test.ts              # Integration tests (9 tests)
+├── api.test.ts              # 통합 테스트 (9개)
 ├── config/
-│   └── stylelint.test.ts    # Config tests (11 tests)
+│   └── stylelint.test.ts    # 설정 테스트 (11개)
 ├── services/
-│   └── lintService.test.ts  # Service tests (12 tests)
+│   └── lintService.test.ts  # 서비스 테스트 (12개)
 └── utils/
-    └── formatters.test.ts   # Formatter tests (14 tests)
+    └── formatters.test.ts   # 포매터 테스트 (14개)
 ```
 
-**Current Coverage**: 46/46 tests passing ✅
+**현재 커버리지**: 46/46 테스트 통과 ✅
 
 ---
 
-## 🔧 Troubleshooting
+## 🔧 문제 해결
 
-### Common Issues
+### 일반적인 문제
 
-#### Port Already in Use
+#### 포트가 이미 사용 중
 
 ```bash
-# Find process using port 5002
+# 5002 포트를 사용 중인 프로세스 찾기
 lsof -i :5002
 
-# Kill the process
+# 프로세스 종료
 kill -9 <PID>
 
-# Or use different port
+# 또는 다른 포트 사용
 PORT=5003 bun run dev
 ```
 
-#### CORS Errors
+#### CORS 에러
 
-**Problem**: Browser blocks requests
+**문제**: 브라우저가 요청 차단
 
-**Solution**: Add your origin to `CORS_ORIGIN`
+**해결책**: `CORS_ORIGIN`에 출처 추가
 
 ```bash
 CORS_ORIGIN=http://localhost:3000
 ```
 
-#### Production Startup Fails
+#### 프로덕션 시작 실패
 
-**Problem**: `CORS_ORIGIN is required in production`
+**문제**: `CORS_ORIGIN is required in production`
 
-**Solution**: Set explicit origins
+**해결책**: 명시적인 출처 설정
 
 ```bash
 NODE_ENV=production
 CORS_ORIGIN=https://your-domain.com
 ```
 
-#### Rate Limit Issues
+#### 요청 제한 문제
 
-**Problem**: 429 Too Many Requests
+**문제**: 429 Too Many Requests
 
-**Solution**: Wait 60 seconds or adjust rate limit in `src/utils/rateLimiter.ts`
+**해결책**: 60초 대기 또는 `src/utils/rateLimiter.ts`에서 요청 제한 조정
 
-### Getting Help
+#### HMR 개발 서버 (3000번 포트)
 
-1. Check [Issues](https://github.com/bearholmes/mongmung_csslint_be/issues)
-2. Review [CODE_REVIEW_REPORT.md](./CODE_REVIEW_REPORT.md)
-3. Contact: [Create an issue](https://github.com/bearholmes/mongmung_csslint_be/issues/new)
+**설명**: 개발 모드에서 3000번 포트는 Elysia의 Hot Module Replacement(HMR) 기능을 위한 웹소켓 서버입니다. 코드 변경을 감지하고 자동으로 서버를 재시작하는 용도로 사용됩니다.
 
----
+- **실제 API**: 5002번 포트에서 동작
+- **HMR 통신**: 3000번 포트 (개발 모드에서만)
+- **프로덕션**: 3000번 포트 사용 안 함
 
-## 🤝 Contributing
+### 도움 받기
 
-We welcome contributions! Please follow these guidelines:
-
-### How to Contribute
-
-1. **Fork the repository**
-2. **Create feature branch**: `git checkout -b feature/amazing-feature`
-3. **Commit changes**: `git commit -m 'Add amazing feature'`
-4. **Push to branch**: `git push origin feature/amazing-feature`
-5. **Open Pull Request**
-
-### Development Guidelines
-
-- ✅ Write tests for new features
-- ✅ Follow TypeScript best practices
-- ✅ Update documentation
-- ✅ Ensure all tests pass
-- ✅ Follow existing code style
-
-### Code Review Process
-
-All submissions require code review. We use GitHub pull requests for this purpose.
+1. [이슈](https://github.com/bearholmes/mongmung_csslint_be/issues) 확인
+2. [CODE_REVIEW_REPORT.md](./CODE_REVIEW_REPORT.md) 검토
+3. 문의: [이슈 생성](https://github.com/bearholmes/mongmung_csslint_be/issues/new)
 
 ---
 
-## 📄 License
+## 🤝 기여하기
 
-This project is licensed under the **MIT License** - see the [LICENSE](./LICENSE) file for details.
+기여를 환영합니다! 다음 가이드라인을 따라주세요:
+
+### 기여 방법
+
+1. **저장소 포크**
+2. **기능 브랜치 생성**: `git checkout -b feature/amazing-feature`
+3. **변경사항 커밋**: `git commit -m 'Add amazing feature'`
+4. **브랜치에 푸시**: `git push origin feature/amazing-feature`
+5. **Pull Request 열기**
+
+### 개발 가이드라인
+
+- ✅ 새 기능에 대한 테스트 작성
+- ✅ TypeScript 모범 사례 준수
+- ✅ 문서 업데이트
+- ✅ 모든 테스트 통과 확인
+- ✅ 기존 코드 스타일 준수
+
+### 코드 리뷰 프로세스
+
+모든 제출물은 코드 리뷰가 필요합니다. 이를 위해 GitHub Pull Request를 사용합니다.
 
 ---
 
-## 🔗 Related Projects
+## 📄 라이선스
 
-- **Frontend**: [mongmung_csslint_fe](https://github.com/bearholmes/mongmung_csslint_fe) - React-based web interface
-- **Documentation**: [CODE_REVIEW_REPORT.md](./CODE_REVIEW_REPORT.md) - Detailed code quality audit
-
----
-
-## 📊 Project Status
-
-| Metric        | Status           |
-| ------------- | ---------------- |
-| Code Quality  | A+ (97/100)      |
-| Tests         | 46/46 passing    |
-| Security      | Production-ready |
-| Documentation | Comprehensive    |
-| Maintenance   | Active           |
+이 프로젝트는 **MIT 라이선스** 하에 라이선스가 부여됩니다 - 자세한 내용은 [LICENSE](./LICENSE) 파일을 참조하세요.
 
 ---
 
-## 🙏 Acknowledgments
+## 🔗 관련 프로젝트
 
-- [Bun](https://bun.sh) - Incredibly fast JavaScript runtime
-- [Elysia](https://elysiajs.com) - Ergonomic web framework
-- [Stylelint](https://stylelint.io) - Powerful CSS linter
-- [PostCSS](https://postcss.org) - CSS transformation tool
+- **프론트엔드**: [mongmung_csslint_fe](https://github.com/bearholmes/mongmung_csslint_fe) - React 기반 웹 인터페이스
+- **문서**: [CODE_REVIEW_REPORT.md](./CODE_REVIEW_REPORT.md) - 상세한 코드 품질 감사
+
+---
+
+## 📊 프로젝트 현황
+
+| 지표       | 상태                 |
+| ---------- | -------------------- |
+| 코드 품질  | A+ (97/100)          |
+| 테스트     | 46/46 통과           |
+| 보안       | 프로덕션 준비 완료   |
+| 문서화     | 포괄적               |
+| 유지보수   | 활성                 |
+
+---
+
+## 🙏 감사의 글
+
+- [Bun](https://bun.sh) - 엄청나게 빠른 JavaScript 런타임
+- [Elysia](https://elysiajs.com) - 인체공학적 웹 프레임워크
+- [Stylelint](https://stylelint.io) - 강력한 CSS 린터
+- [PostCSS](https://postcss.org) - CSS 변환 도구
 
 ---
 
 <div align="center">
 
-**Made with ❤️ by bearholmes**
+**bearholmes가 ❤️로 만들었습니다**
 
-[⬆ Back to Top](#-mongmung-css-lint)
+[⬆ 맨 위로](#-몽멍-css-린트)
 
 </div>
