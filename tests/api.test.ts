@@ -1,6 +1,29 @@
 import { describe, test, expect } from 'bun:test';
 import app from '../src/index';
 
+type HealthResponse = {
+  status: string;
+  timestamp: string;
+  uptime: number;
+  environment: string;
+};
+
+type LintResponse = {
+  success: boolean;
+  message?: string;
+  content?: {
+    output?: string;
+    info?: {
+      version?: string;
+      config: {
+        customSyntax?: string;
+        extends: unknown[];
+        plugins: unknown[];
+      };
+    };
+  } | null;
+};
+
 describe('API Integration Tests', () => {
   describe('GET /', () => {
     test('should return ASCII art welcome message', async () => {
@@ -17,7 +40,7 @@ describe('API Integration Tests', () => {
   describe('GET /health', () => {
     test('should return health status', async () => {
       const response = await app.handle(new Request('http://localhost/health'));
-      const data = (await response.json()) as any;
+      const data = (await response.json()) as HealthResponse;
 
       expect(response.status).toBe(200);
       expect(data.status).toBe('ok');
@@ -28,7 +51,7 @@ describe('API Integration Tests', () => {
 
     test('should return valid ISO timestamp', async () => {
       const response = await app.handle(new Request('http://localhost/health'));
-      const data = (await response.json()) as any;
+      const data = (await response.json()) as HealthResponse;
 
       const timestamp = new Date(data.timestamp);
       expect(timestamp.toString()).not.toBe('Invalid Date');
@@ -36,7 +59,7 @@ describe('API Integration Tests', () => {
 
     test('should return positive uptime', async () => {
       const response = await app.handle(new Request('http://localhost/health'));
-      const data = (await response.json()) as any;
+      const data = (await response.json()) as HealthResponse;
 
       expect(data.uptime).toBeGreaterThan(0);
     });
@@ -60,7 +83,7 @@ describe('API Integration Tests', () => {
       });
 
       const response = await app.handle(request);
-      const data = (await response.json()) as any;
+      const data = (await response.json()) as LintResponse;
 
       expect(response.status).toBe(200);
       expect(data.success).toBe(true);
@@ -86,7 +109,7 @@ describe('API Integration Tests', () => {
       });
 
       const response = await app.handle(request);
-      const data = (await response.json()) as any;
+      const data = (await response.json()) as LintResponse;
 
       expect(response.status).toBe(200);
       expect(data.success).toBe(true);
@@ -130,7 +153,7 @@ describe('API Integration Tests', () => {
       });
 
       const response = await app.handle(request);
-      const data = (await response.json()) as any;
+      const data = (await response.json()) as LintResponse;
 
       expect([400, 422]).toContain(response.status);
       expect(data.success).toBe(false);
@@ -153,7 +176,7 @@ describe('API Integration Tests', () => {
       });
 
       const response = await app.handle(request);
-      const data = (await response.json()) as any;
+      const data = (await response.json()) as LintResponse;
 
       expect(response.status).toBe(400);
       expect(data.success).toBe(false);
@@ -176,7 +199,7 @@ describe('API Integration Tests', () => {
       });
 
       const response = await app.handle(request);
-      const data = (await response.json()) as any;
+      const data = (await response.json()) as LintResponse;
 
       expect(response.status).toBe(200);
       expect(data.success).toBe(true);
@@ -199,7 +222,7 @@ describe('API Integration Tests', () => {
       });
 
       const response = await app.handle(request);
-      const data = (await response.json()) as any;
+      const data = (await response.json()) as LintResponse;
 
       expect(response.status).toBe(200);
       expect(data.content.info.version).toBeTruthy();
@@ -238,7 +261,7 @@ describe('API Integration Tests', () => {
       });
 
       const response = await app.handle(request);
-      const data = (await response.json()) as any;
+      const data = (await response.json()) as LintResponse;
 
       expect(response.status).toBe(200);
       expect(data.success).toBe(true);

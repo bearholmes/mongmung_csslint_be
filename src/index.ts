@@ -191,14 +191,23 @@ app.onError(({ code, error, set }) => {
     return figlet.textSync('Not Found');
   }
 
+  type ErrorLike = { message?: unknown; stack?: unknown };
+  const errorLike: ErrorLike | null =
+    typeof error === 'object' && error !== null ? (error as ErrorLike) : null;
+
   const errorMessage =
-    error && typeof error === 'object' && 'message' in error
-      ? String((error as any).message)
-      : 'Unknown error';
+    error instanceof Error
+      ? error.message
+      : typeof errorLike?.message === 'string'
+        ? errorLike.message
+        : 'Unknown error';
+
   const errorStack =
-    env.isDev && error && typeof error === 'object' && 'stack' in error
-      ? String((error as any).stack)
-      : undefined;
+    env.isDev && error instanceof Error
+      ? error.stack
+      : env.isDev && typeof errorLike?.stack === 'string'
+        ? errorLike.stack
+        : undefined;
 
   // 기타 에러는 기본 처리
   logger.error('Application error', {
