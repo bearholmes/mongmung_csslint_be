@@ -1,4 +1,4 @@
-import { SERVER_CONFIG, ENV_MODE, LOG_LEVEL } from '../constants';
+import { SERVER_CONFIG, ENV_MODE } from '../constants';
 
 /**
  * 로그 레벨 타입

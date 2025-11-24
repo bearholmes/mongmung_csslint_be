@@ -1,8 +1,7 @@
 import { lintCode } from '../services/lintService';
 import { LintRequest, LintResult } from '../types';
 import { logger } from '../utils/logger';
-import { isAppError, toAppError } from '../errors';
-import { HTTP_STATUS, MESSAGES } from '../constants';
+import { toAppError } from '../errors';
 
 /**
  * Elysia 컨텍스트 타입

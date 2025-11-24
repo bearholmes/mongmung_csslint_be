@@ -7,7 +7,6 @@
 [![Bun Version](https://img.shields.io/badge/bun-v1.3.2-black?logo=bun)](https://bun.sh)
 [![Elysia](https://img.shields.io/badge/elysia-v1.4.16-blue)](https://elysiajs.com)
 [![TypeScript](https://img.shields.io/badge/typescript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![Code Quality](https://img.shields.io/badge/quality-A%2B%20(97%2F100)-brightgreen)](./CODE_REVIEW_REPORT.md)
 [![Tests](https://img.shields.io/badge/tests-46%2F46%20passing-success)](./tests)
 [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
@@ -77,15 +76,15 @@
 
 ## 🛠 기술 스택
 
-| 분류           | 기술                                       | 버전     | 용도                     |
-| -------------- | ------------------------------------------ | -------- | ------------------------ |
-| **런타임**     | [Bun](https://bun.sh)                      | v1.3.2   | 초고속 JavaScript 런타임 |
-| **프레임워크** | [Elysia](https://elysiajs.com)             | v1.4.16  | 고성능 웹 프레임워크     |
-| **린터**       | [Stylelint](https://stylelint.io)          | v15.11.0 | CSS/SCSS 린팅 엔진       |
-| **CSS 파서**   | [PostCSS](https://postcss.org)             | v8.4.x   | CSS 변환                 |
-| **언어**       | [TypeScript](https://typescriptlang.org)   | v5.0+    | 타입 안전 개발           |
-| **테스팅**     | Bun Test                                   | Built-in | 빠른 네이티브 테스팅     |
-| **API 문서**   | Scalar UI                                  | v3.0     | 인터랙티브 API 문서      |
+| 분류           | 기술                                     | 버전     | 용도                     |
+| -------------- | ---------------------------------------- | -------- | ------------------------ |
+| **런타임**     | [Bun](https://bun.sh)                    | v1.3.2   | 초고속 JavaScript 런타임 |
+| **프레임워크** | [Elysia](https://elysiajs.com)           | v1.4.16  | 고성능 웹 프레임워크     |
+| **린터**       | [Stylelint](https://stylelint.io)        | v15.11.0 | CSS/SCSS 린팅 엔진       |
+| **CSS 파서**   | [PostCSS](https://postcss.org)           | v8.4.x   | CSS 변환                 |
+| **언어**       | [TypeScript](https://typescriptlang.org) | v5.0+    | 타입 안전 개발           |
+| **테스팅**     | Bun Test                                 | Built-in | 빠른 네이티브 테스팅     |
+| **API 문서**   | Scalar UI                                | v3.0     | 인터랙티브 API 문서      |
 
 ### 아키텍처 특징
 
@@ -179,16 +178,16 @@ cp .env.example .env
 #### 핵심 설정
 
 | 변수       | 설명        | 기본값        | 필수 |
-| ---------- | ----------- | ------------- | - |
-| `PORT`     | 서버 포트   | `5002`        |  |
-| `HOST`     | 서버 호스트 | `0.0.0.0`     |  |
-| `NODE_ENV` | 환경 모드   | `development` |  |
+| ---------- | ----------- | ------------- | ---- |
+| `PORT`     | 서버 포트   | `5002`        |      |
+| `HOST`     | 서버 호스트 | `0.0.0.0`     |      |
+| `NODE_ENV` | 환경 모드   | `development` |      |
 
 #### CORS 설정
 
-| 변수          | 설명                       | 필수               |
-| ------------- | -------------------------- | ------------------ |
-| `CORS_ORIGIN` | 허용된 출처 (쉼표로 구분) | ✅  |
+| 변수          | 설명                      | 필수 |
+| ------------- | ------------------------- | ---- |
+| `CORS_ORIGIN` | 허용된 출처 (쉼표로 구분) | ✅   |
 
 **개발 환경:**
 
@@ -208,9 +207,9 @@ CORS_ORIGIN=https://your-domain.com,https://api.your-domain.com
 
 #### 로깅 설정
 
-| 변수        | 설명          | 값                               | 기본값                               |
-| ----------- | ------------- | -------------------------------- | ------------------------------------ |
-| `LOG_LEVEL` | 로깅 상세도   | `error`, `warn`, `info`, `debug` | `debug` (개발)<br/>`info` (프로덕션) |
+| 변수        | 설명        | 값                               | 기본값                               |
+| ----------- | ----------- | -------------------------------- | ------------------------------------ |
+| `LOG_LEVEL` | 로깅 상세도 | `error`, `warn`, `info`, `debug` | `debug` (개발)<br/>`info` (프로덕션) |
 
 **예시:**
 
@@ -382,13 +381,14 @@ Retry-After: 60
 
 ### 사용 가능한 스크립트
 
-| 명령어               | 설명                          |
-| -------------------- | ----------------------------- |
-| `bun run dev`        | 개발 서버 시작 (HMR 활성화)   |
-| `bun run serve`      | 개발 서버 시작 (dev와 동일)   |
-| `bun run build`      | 프로덕션 빌드                 |
-| `bun run test`       | 모든 테스트 실행              |
-| `bun run test:watch` | Watch 모드 테스팅             |
+| 명령어               | 설명                        |
+| -------------------- | --------------------------- |
+| `bun run dev`        | 개발 서버 시작 (HMR 활성화) |
+| `bun run serve`      | 개발 서버 시작 (dev와 동일) |
+| `bun run build`      | 프로덕션 빌드               |
+| `npm run lint`       | ESLint로 TypeScript/테스트 코드 검사 |
+| `bun run test`       | 모든 테스트 실행            |
+| `bun run test:watch` | Watch 모드 테스팅           |
 
 ### 개발 워크플로우
 
@@ -408,7 +408,7 @@ Retry-After: 60
    ```bash
    bun run typecheck
    ```
-   
+
 ---
 
 ## 🐳 Docker 지원
@@ -537,8 +537,7 @@ CORS_ORIGIN=https://your-domain.com
 ### 도움 받기
 
 1. [이슈](https://github.com/bearholmes/mongmung_csslint_be/issues) 확인
-2. [CODE_REVIEW_REPORT.md](./CODE_REVIEW_REPORT.md) 검토
-3. 문의: [이슈 생성](https://github.com/bearholmes/mongmung_csslint_be/issues/new)
+2. 문의: [이슈 생성](https://github.com/bearholmes/mongmung_csslint_be/issues/new)
 
 ---
 
@@ -565,15 +564,6 @@ CORS_ORIGIN=https://your-domain.com
 ## 🔗 관련 프로젝트
 
 - **웹 클라이언트**: [mongmung_csslint_fe](https://github.com/bearholmes/mongmung_csslint_fe) - React 기반 웹 인터페이스
-- **문서**: [CODE_REVIEW_REPORT.md](./CODE_REVIEW_REPORT.md) - 상세한 코드 품질 감사
-
----
-
-## 🙏 감사의 글
-
-- [Bun](https://bun.sh) - 엄청나게 빠른 JavaScript 런타임
-- [Elysia](https://elysiajs.com) - 인체공학적 웹 프레임워크
-- [Stylelint](https://stylelint.io) - 강력한 CSS 린터
 
 ---
 

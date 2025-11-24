@@ -78,7 +78,6 @@ mongmung_csslint_be/
 │   └── utils/
 ├── public/              # 정적 자산
 ├── .env.example         # 환경 템플릿
-├── CODE_REVIEW_REPORT.md # 품질 감사 보고서
 └── README.md
 ```
 
@@ -590,4 +589,3 @@ bun install
 - [Stylelint 공식 문서](https://stylelint.io)
 - [PostCSS 공식 문서](https://postcss.org)
 - [TypeScript 공식 문서](https://www.typescriptlang.org)
-

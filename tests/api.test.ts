@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeAll, afterAll } from 'bun:test';
+import { describe, test, expect } from 'bun:test';
 import app from '../src/index';
 
 describe('API Integration Tests', () => {
@@ -60,7 +60,6 @@ describe('API Integration Tests', () => {
       });
 
       const response = await app.handle(request);
-      const data = await response.json();
 
       expect(response.status).toBe(200);
       expect(data.success).toBe(true);
@@ -86,7 +85,6 @@ describe('API Integration Tests', () => {
       });
 
       const response = await app.handle(request);
-      const data = await response.json();
 
       expect(response.status).toBe(200);
       expect(data.success).toBe(true);
@@ -109,7 +107,6 @@ describe('API Integration Tests', () => {
       });
 
       const response = await app.handle(request);
-      const data = await response.json();
 
       // Elysia minLength validation triggers 400 or 422
       expect([400, 422]).toContain(response.status);

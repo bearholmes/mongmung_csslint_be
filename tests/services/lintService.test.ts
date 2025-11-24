@@ -34,7 +34,7 @@ describe('lintService', () => {
     });
 
     test('should throw error for invalid syntax', async () => {
-      const request: any = {
+      const request = {
         code: 'body { color: red; }',
         syntax: 'invalid',
         config: {
@@ -42,7 +42,7 @@ describe('lintService', () => {
         },
       };
 
-      await expect(lintCode(request)).rejects.toThrow(
+      await expect(lintCode(request as unknown as LintRequest)).rejects.toThrow(
         '지원하지 않는 문법입니다',
       );
     });
@@ -62,7 +62,7 @@ describe('lintService', () => {
     });
 
     test('should throw error for invalid output style', async () => {
-      const request: any = {
+      const request = {
         code: 'body { color: red; }',
         syntax: 'css',
         config: {
@@ -71,7 +71,7 @@ describe('lintService', () => {
         },
       };
 
-      await expect(lintCode(request)).rejects.toThrow(
+      await expect(lintCode(request as unknown as LintRequest)).rejects.toThrow(
         '지원하지 않는 출력 스타일입니다',
       );
     });
