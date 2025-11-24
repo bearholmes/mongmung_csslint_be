@@ -18,7 +18,8 @@
     "lint": "eslint \"src/**/*.ts\" \"tests/**/*.ts\"",
     "start": "bun run src/index.ts",
     "test": "bun test",
-    "test:watch": "bun test --watch"
+    "test:watch": "bun test --watch",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@elysiajs/cors": "1",
@@ -41,11 +42,12 @@
     "@types/figlet": "^1.5.6",
     "@types/postcss-html": "^1.5.3",
     "@types/stylelint": "^14.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.5.0",
+    "@typescript-eslint/parser": "^6.5.0",
     "bun-types": "^1.0.3",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.0.0",
-    "@typescript-eslint/eslint-plugin": "^6.5.0",
-    "@typescript-eslint/parser": "^6.5.0",
+    "husky": "^9.1.7",
     "is-plain-object": "^5.0.0",
     "prettier": "^3.0.3",
     "stylelint-stylistic": "^0.4.3"
