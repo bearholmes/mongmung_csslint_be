@@ -114,14 +114,3 @@ export const logger: Logger = new ConsoleLogger(getLogLevelFromEnv());
  * @param logLevel - 로그 레벨 (기본값: 환경 변수 또는 debug/info)
  * @returns Logger 인스턴스
  */
-export function createLogger(
-  type: 'console' = 'console',
-  logLevel?: LogLevelType,
-): Logger {
-  const level = logLevel || getLogLevelFromEnv();
-  switch (type) {
-    case 'console':
-    default:
-      return new ConsoleLogger(level);
-  }
-}

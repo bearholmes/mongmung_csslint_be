@@ -37,18 +37,6 @@ export class AppError extends Error {
     }
   }
 
-  /**
-   * 에러를 JSON으로 직렬화
-   */
-  toJSON() {
-    return {
-      name: this.name,
-      message: this.message,
-      code: this.code,
-      statusCode: this.statusCode,
-      context: this.context,
-    };
-  }
 }
 
 /**
@@ -75,35 +63,6 @@ export class LintError extends AppError {
 export class ParseError extends AppError {
   constructor(message: string, context?: Record<string, unknown>) {
     super(message, HTTP_STATUS.UNPROCESSABLE_ENTITY, 'PARSE_ERROR', context);
-  }
-}
-
-/**
- * 찾을 수 없음 에러 (404 Not Found)
- */
-export class NotFoundError extends AppError {
-  constructor(
-    message: string = 'Resource not found',
-    context?: Record<string, unknown>,
-  ) {
-    super(message, HTTP_STATUS.NOT_FOUND, 'NOT_FOUND', context);
-  }
-}
-
-/**
- * 내부 서버 에러 (500 Internal Server Error)
- */
-export class InternalServerError extends AppError {
-  constructor(
-    message: string = 'Internal server error',
-    context?: Record<string, unknown>,
-  ) {
-    super(
-      message,
-      HTTP_STATUS.INTERNAL_SERVER_ERROR,
-      'INTERNAL_ERROR',
-      context,
-    );
   }
 }
 

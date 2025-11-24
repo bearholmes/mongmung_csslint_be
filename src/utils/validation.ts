@@ -26,13 +26,6 @@ export function isValidOutputStyle(style: string): style is OutputStyle {
 }
 
 /**
- * 객체가 비어있지 않은지 확인
- */
-export function isNonEmptyObject(obj: unknown): boolean {
-  return typeof obj === 'object' && obj !== null && Object.keys(obj).length > 0;
-}
-
-/**
  * CSS 코드 유효성 검증
  *
  * @param code - 검증할 CSS 코드

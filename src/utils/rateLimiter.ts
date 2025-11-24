@@ -105,18 +105,7 @@ export class RateLimiter {
 
   /**
    * 특정 클라이언트 제한 초기화
-   * @param identifier - 클라이언트 식별자
    */
-  reset(identifier: string): void {
-    this.store.delete(identifier);
-  }
-
-  /**
-   * 모든 제한 초기화
-   */
-  resetAll(): void {
-    this.store.clear();
-  }
 }
 
 /**

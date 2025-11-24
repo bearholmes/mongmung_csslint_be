@@ -126,17 +126,3 @@ function parseEnv(): AppEnv {
  * 검증된 환경 변수 (싱글톤)
  */
 export const env = parseEnv();
-
-/**
- * 환경 변수 정보 출력 (디버깅용)
- */
-export function logEnvInfo(): void {
-  console.info('Environment Configuration:');
-  console.info(`  PORT: ${env.PORT}`);
-  console.info(`  HOST: ${env.HOST}`);
-  console.info(`  NODE_ENV: ${env.NODE_ENV}`);
-  console.info(`  isDev: ${env.isDev}`);
-  console.info(
-    `  CORS_ORIGIN: ${Array.isArray(env.CORS_ORIGIN) ? env.CORS_ORIGIN.join(', ') : env.CORS_ORIGIN}`,
-  );
-}
