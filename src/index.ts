@@ -1,4 +1,4 @@
-import { Elysia, t } from 'elysia';
+import { Elysia, t, type HTTPHeaders } from 'elysia';
 import { cors } from '@elysiajs/cors';
 import { staticPlugin } from '@elysiajs/static';
 import figlet from 'figlet';
@@ -15,6 +15,22 @@ import {
   ENV_MODE,
 } from './constants';
 
+function mergeHeaders(
+  current: HTTPHeaders | undefined,
+  next: Record<string, string | number>,
+): HTTPHeaders {
+  const normalizedCurrent = current
+    ? Object.fromEntries(
+        Object.entries(current).map(([key, value]) => [
+          key,
+          Array.isArray(value) ? value.join('; ') : value,
+        ]),
+      )
+    : {};
+
+  return { ...normalizedCurrent, ...next };
+}
+
 /**
  * Elysia 애플리케이션 초기화
  */
@@ -23,8 +39,6 @@ const app = new Elysia({
     hostname: env.HOST,
     port: env.PORT,
   },
-  // 개발 환경에서만 HMR 활성화
-  hot: env.isDev,
 });
 
 /**
@@ -59,8 +73,7 @@ app.use(
  * XSS, Clickjacking 등의 공격 방어
  */
 app.onAfterHandle(({ set }) => {
-  set.headers = {
-    ...set.headers,
+  set.headers = mergeHeaders(set.headers, {
     // XSS 방어
     'X-Content-Type-Options': 'nosniff',
     'X-XSS-Protection': '1; mode=block',
@@ -77,7 +90,7 @@ app.onAfterHandle(({ set }) => {
     'Referrer-Policy': 'strict-origin-when-cross-origin',
     // Permissions Policy
     'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
-  };
+  });
 });
 
 /**
@@ -118,12 +131,11 @@ app.onBeforeHandle(({ request, set }) => {
   if (!rateLimiter.consume(clientIp)) {
     set.status = 429; // Too Many Requests
     const remaining = rateLimiter.remaining(clientIp);
-    set.headers = {
-      ...set.headers,
+    set.headers = mergeHeaders(set.headers, {
       'X-RateLimit-Limit': '100',
       'X-RateLimit-Remaining': String(remaining),
       'Retry-After': '60',
-    };
+    });
 
     logger.warn('Rate limit exceeded', {
       clientIp,
@@ -139,11 +151,10 @@ app.onBeforeHandle(({ request, set }) => {
 
   // Rate limit 헤더 추가
   const remaining = rateLimiter.remaining(clientIp);
-  set.headers = {
-    ...set.headers,
+  set.headers = mergeHeaders(set.headers, {
     'X-RateLimit-Limit': '100',
     'X-RateLimit-Remaining': String(remaining),
-  };
+  });
 });
 
 /**
@@ -180,17 +191,26 @@ app.onError(({ code, error, set }) => {
     return figlet.textSync('Not Found');
   }
 
+  const errorMessage =
+    error && typeof error === 'object' && 'message' in error
+      ? String((error as any).message)
+      : 'Unknown error';
+  const errorStack =
+    env.isDev && error && typeof error === 'object' && 'stack' in error
+      ? String((error as any).stack)
+      : undefined;
+
   // 기타 에러는 기본 처리
   logger.error('Application error', {
     code,
-    message: error.message,
-    stack: env.isDev ? error.stack : undefined,
+    message: errorMessage,
+    stack: errorStack,
   });
 
   return {
     success: false,
     message: MESSAGES.SERVER_ERROR,
-    error: env.isDev ? error.message : undefined,
+    error: env.isDev ? errorMessage : undefined,
   };
 });
 
@@ -231,9 +251,12 @@ app.post(API_ROUTES.LINT, handleLintRequest, {
       description: '린트할 CSS 코드',
       minLength: 1,
     }),
-    syntax: t.String({
-      description: 'CSS 문법 타입 (css 또는 html)',
-    }),
+    syntax: t.Union(
+      [t.Literal('css'), t.Literal('html')],
+      {
+        description: 'CSS 문법 타입 (css 또는 html)',
+      },
+    ),
     config: t.Object({
       rules: t.Record(
         t.String(),
@@ -242,9 +265,12 @@ app.post(API_ROUTES.LINT, handleLintRequest, {
         }),
       ),
       outputStyle: t.Optional(
-        t.String({
-          description: '출력 포맷 스타일 (compact 또는 nested)',
-        }),
+        t.Union(
+          [t.Literal('compact'), t.Literal('nested')],
+          {
+            description: '출력 포맷 스타일 (compact 또는 nested)',
+          },
+        ),
       ),
     }),
   }),

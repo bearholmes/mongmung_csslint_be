@@ -1,4 +1,5 @@
 import styleLint from 'stylelint';
+import type { LinterResult } from 'stylelint';
 import postcss from 'postcss';
 import {
   LintOptions,
@@ -54,7 +55,7 @@ function validateLintRequest(request: LintRequest): void {
  * @param lintResult - Stylelint 실행 결과
  * @returns 경고 목록 (없으면 빈 배열)
  */
-function extractWarnings(lintResult: styleLint.LintResult): StylelintWarning[] {
+function extractWarnings(lintResult: LinterResult): StylelintWarning[] {
   if (!lintResult.results || lintResult.results.length === 0) {
     return [];
   }
@@ -143,15 +144,15 @@ export async function lintCode(request: LintRequest): Promise<LintResult> {
     });
 
     // Stylelint 실행
-    const lintResult = await styleLint.lint(options);
+    const lintResult: LinterResult = await styleLint.lint(options);
 
     // 경고 추출
     const warnings = extractWarnings(lintResult);
 
     // 출력 포맷팅
     const formattedOutput = formatOutput(
-      lintResult.output || code,
-      outputStyle as OutputStyle | undefined,
+      lintResult.output ?? code,
+      outputStyle,
       syntax,
     );
 

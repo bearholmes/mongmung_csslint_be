@@ -28,3 +28,6 @@ dist-ssr
 *.sw?
 
 .idea/
+
+# TypeScript incremental build info
+tsconfig.tsbuildinfo

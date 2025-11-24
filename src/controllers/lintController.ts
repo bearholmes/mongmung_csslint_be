@@ -9,7 +9,7 @@ import { toAppError } from '../errors';
 interface ElysiaContext {
   body: LintRequest;
   set: {
-    status?: number;
+    status?: number | string;
   };
 }
 
