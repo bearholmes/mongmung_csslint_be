@@ -13,18 +13,24 @@
     "clean": "rm -rf dist && echo 'Done.'",
     "format": "prettier . --write",
     "serve": "NODE_ENV=development bun run src/index.ts",
-    "dev": "bun --smol run src/index.ts",
+    "dev": "NODE_ENV=development bun run src/index.ts",
     "build": "bun build src/index.ts --outdir dist",
-    "start": "bun run src/index.ts"
+    "lint": "eslint \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "start": "bun run src/index.ts",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
+    "prepare": "husky install"
   },
   "dependencies": {
-    "@elysiajs/cors": "^0.7.1",
-    "@elysiajs/static": "^0.7.1",
-    "@elysiajs/swagger": "^0.7.3",
-    "elysia": "^0.7.15",
+    "@elysiajs/cors": "1",
+    "@elysiajs/static": "1",
+    "@elysiajs/swagger": "1",
+    "@sinclair/typebox": "0.34",
+    "elysia": "1",
     "figlet": "^1.6.0",
-    "postcss": "^8.4.31",
-    "postcss-html": "^1.5.0",
+    "nanoid": "^5.1.6",
+    "postcss": "^8.5.6",
+    "postcss-html": "^1.8.0",
     "stylelint": "^15.11.0",
     "stylelint-config-recommended-scss": "^13.0.0",
     "stylelint-config-recommended-vue": "^1.5.0",
@@ -36,13 +42,18 @@
     "@types/figlet": "^1.5.6",
     "@types/postcss-html": "^1.5.3",
     "@types/stylelint": "^14.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.5.0",
+    "@typescript-eslint/parser": "^6.5.0",
     "bun-types": "^1.0.3",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.0.0",
+    "husky": "^9.1.7",
     "is-plain-object": "^5.0.0",
     "prettier": "^3.0.3",
     "stylelint-stylistic": "^0.4.3"
   },
   "peerDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.9.3"
   },
   "peerDependenciesMeta": {
     "postcss": {

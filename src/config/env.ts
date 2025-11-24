@@ -1,0 +1,128 @@
+import { SERVER_CONFIG, ENV_MODE } from '../constants';
+
+/**
+ * 로그 레벨 타입
+ */
+export type LogLevelType = 'error' | 'warn' | 'info' | 'debug';
+
+/**
+ * 환경 변수 타입 정의
+ */
+export interface AppEnv {
+  /** 서버 포트 */
+  PORT: number;
+  /** 서버 호스트 */
+  HOST: string;
+  /** Node 환경 (development, production, test) */
+  NODE_ENV: string;
+  /** 개발 모드 여부 */
+  isDev: boolean;
+  /** CORS 허용 Origin (단일 또는 배열) */
+  CORS_ORIGIN: string | string[];
+  /** 로그 레벨 (error, warn, info, debug) */
+  LOG_LEVEL: LogLevelType;
+}
+
+/**
+ * CORS Origin 파싱
+ * - 쉼표로 구분된 여러 도메인 지원
+ * - 개발/테스트 환경: 기본값 '*' (모든 도메인 허용)
+ * - 프로덕션: 환경 변수 필수, 명시적 설정 필요
+ *
+ * @param nodeEnv - Node 환경
+ * @returns 파싱된 CORS Origin
+ * @throws {Error} 프로덕션 환경에서 CORS_ORIGIN 미설정 시
+ */
+function parseCorsOrigin(nodeEnv: string): string | string[] {
+  const corsOrigin = process.env.CORS_ORIGIN;
+  const isProduction = nodeEnv === ENV_MODE.PRODUCTION;
+
+  // 개발/테스트 환경: 기본값 '*'
+  if (!isProduction) {
+    return corsOrigin || '*';
+  }
+
+  // 프로덕션 환경: 명시적 설정 필수
+  if (!corsOrigin || corsOrigin.trim().length === 0) {
+    throw new Error(
+      'CORS_ORIGIN is required in production. Set it to a specific domain or comma-separated list of domains.',
+    );
+  }
+
+  // 쉼표로 구분된 여러 도메인 처리
+  if (corsOrigin.includes(',')) {
+    return corsOrigin
+      .split(',')
+      .map((origin) => origin.trim())
+      .filter((origin) => origin.length > 0);
+  }
+
+  return corsOrigin.trim();
+}
+
+/**
+ * 로그 레벨 파싱
+ * - 개발 환경: 기본값 'debug' (모든 로그 출력)
+ * - 프로덕션 환경: 기본값 'info' (debug 로그 제외)
+ *
+ * @param isDev - 개발 모드 여부
+ * @returns 파싱된 로그 레벨
+ */
+function parseLogLevel(isDev: boolean): LogLevelType {
+  const logLevel = process.env.LOG_LEVEL?.toLowerCase();
+  const validLevels: LogLevelType[] = ['error', 'warn', 'info', 'debug'];
+
+  if (logLevel && validLevels.includes(logLevel as LogLevelType)) {
+    return logLevel as LogLevelType;
+  }
+
+  // 기본값: 개발 환경은 debug, 프로덕션은 info
+  return isDev ? 'debug' : 'info';
+}
+
+/**
+ * 환경 변수 파싱 및 검증
+ *
+ * @returns 검증된 환경 변수 객체
+ * @throws {Error} 환경 변수가 유효하지 않은 경우
+ */
+function parseEnv(): AppEnv {
+  const port = process.env.PORT
+    ? Number(process.env.PORT)
+    : SERVER_CONFIG.DEFAULT_PORT;
+  const host = process.env.HOST || SERVER_CONFIG.DEFAULT_HOST;
+  const nodeEnv = process.env.NODE_ENV || ENV_MODE.DEVELOPMENT;
+  const isDev = nodeEnv === ENV_MODE.DEVELOPMENT;
+
+  // 포트 유효성 검증
+  if (isNaN(port) || port < 1 || port > 65535) {
+    throw new Error(
+      `Invalid PORT: ${process.env.PORT}. Must be between 1 and 65535.`,
+    );
+  }
+
+  // 호스트 유효성 검증 (간단한 검증)
+  if (!host || host.trim().length === 0) {
+    throw new Error('Invalid HOST: Must be a non-empty string.');
+  }
+
+  // CORS Origin 파싱
+  const corsOrigin = parseCorsOrigin(nodeEnv);
+
+  // 로그 레벨 파싱
+  const logLevel = parseLogLevel(isDev);
+
+  return {
+    PORT: port,
+    HOST: host,
+    NODE_ENV: nodeEnv,
+    isDev,
+    CORS_ORIGIN: corsOrigin,
+    LOG_LEVEL: logLevel,
+  };
+}
+
+/**
+ * 검증된 환경 변수 (싱글톤)
+ */
+export const env = parseEnv();
