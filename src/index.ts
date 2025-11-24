@@ -7,7 +7,13 @@ import { handleLintRequest } from './controllers/lintController';
 import { env } from './config/env';
 import { logger } from './utils/logger';
 import { rateLimiter } from './utils/rateLimiter';
-import { API_ROUTES, MESSAGES, SERVER_CONFIG, HTTP_STATUS } from './constants';
+import {
+  API_ROUTES,
+  MESSAGES,
+  SERVER_CONFIG,
+  HTTP_STATUS,
+  ENV_MODE,
+} from './constants';
 
 /**
  * Elysia 애플리케이션 초기화
@@ -252,16 +258,21 @@ app.post(API_ROUTES.LINT, handleLintRequest, {
 
 /**
  * 서버 시작
+ * - 테스트 환경 혹은 다른 모듈에서 import 될 때는 서버를 열지 않는다
  */
-app.listen(env.PORT, ({ hostname, port }) => {
-  logger.info(`Elysia server running at http://${hostname}:${port}`);
-  logger.info(
-    `API documentation: http://${hostname}:${port}${API_ROUTES.DOCS}`,
-  );
-  logger.info(`Health check: http://${hostname}:${port}${API_ROUTES.HEALTH}`);
-  if (env.isDev) {
-    logger.info('Development mode with HMR enabled');
-  }
-});
+if (import.meta.main && env.NODE_ENV !== ENV_MODE.TEST) {
+  app.listen(env.PORT, ({ hostname, port }) => {
+    logger.info(`Elysia server running at http://${hostname}:${port}`);
+    logger.info(
+      `API documentation: http://${hostname}:${port}${API_ROUTES.DOCS}`,
+    );
+    logger.info(
+      `Health check: http://${hostname}:${port}${API_ROUTES.HEALTH}`,
+    );
+    if (env.isDev) {
+      logger.info('Development mode with HMR enabled');
+    }
+  });
+}
 
 export default app;

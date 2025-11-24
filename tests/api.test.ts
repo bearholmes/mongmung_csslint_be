@@ -60,6 +60,7 @@ describe('API Integration Tests', () => {
       });
 
       const response = await app.handle(request);
+      const data = await response.json();
 
       expect(response.status).toBe(200);
       expect(data.success).toBe(true);
@@ -85,6 +86,7 @@ describe('API Integration Tests', () => {
       });
 
       const response = await app.handle(request);
+      const data = await response.json();
 
       expect(response.status).toBe(200);
       expect(data.success).toBe(true);
