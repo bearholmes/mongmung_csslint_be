@@ -103,8 +103,8 @@
 curl -fsSL https://bun.sh/install | bash
 
 # 2. 저장소 복제
-git clone https://github.com/bearholmes/mongmung_csslint_be.git
-cd mongmung_csslint_be
+git clone https://github.com/bearholmes/mongmung_csslint_server.git
+cd mongmung_csslint_server
 
 # 3. 의존성 설치
 bun install
@@ -148,8 +148,8 @@ curl -X POST http://localhost:5002/api/lint \
 1. **저장소 복제**
 
    ```bash
-   git clone https://github.com/bearholmes/mongmung_csslint_be.git
-   cd mongmung_csslint_be
+   git clone https://github.com/bearholmes/mongmung_csslint_server.git
+   cd mongmung_csslint_server
    ```
 
 2. **의존성 설치**
@@ -536,8 +536,8 @@ CORS_ORIGIN=https://your-domain.com
 
 ### 도움 받기
 
-1. [이슈](https://github.com/bearholmes/mongmung_csslint_be/issues) 확인
-2. 문의: [이슈 생성](https://github.com/bearholmes/mongmung_csslint_be/issues/new)
+1. [이슈](https://github.com/bearholmes/mongmung_csslint_server/issues) 확인
+2. 문의: [이슈 생성](https://github.com/bearholmes/mongmung_csslint_server/issues/new)
 
 ---
 
