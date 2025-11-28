@@ -339,12 +339,12 @@ curl http://localhost:5002/health
 
 **응답 필드:**
 
-| 필드          | 타입   | 설명                                         |
-| ------------- | ------ | -------------------------------------------- |
-| `status`      | string | 서버 상태 (항상 `"ok"`)                      |
-| `timestamp`   | string | 현재 서버 시간 (ISO 8601 형식)               |
-| `uptime`      | number | 서버 가동 시간 (초)                          |
-| `environment` | string | 실행 환경 (`development`, `production` 등)   |
+| 필드          | 타입   | 설명                                       |
+| ------------- | ------ | ------------------------------------------ |
+| `status`      | string | 서버 상태 (항상 `"ok"`)                    |
+| `timestamp`   | string | 현재 서버 시간 (ISO 8601 형식)             |
+| `uptime`      | number | 서버 가동 시간 (초)                        |
+| `environment` | string | 실행 환경 (`development`, `production` 등) |
 
 **사용 사례:**
 
@@ -424,14 +424,14 @@ curl http://localhost:5002/health
 
 ### 사용 가능한 스크립트
 
-| 명령어               | 설명                        |
-| -------------------- | --------------------------- |
-| `bun run dev`        | 개발 서버 시작 (HMR 활성화) |
-| `bun run serve`      | 개발 서버 시작 (dev와 동일) |
-| `bun run build`      | 프로덕션 빌드               |
+| 명령어               | 설명                                 |
+| -------------------- | ------------------------------------ |
+| `bun run dev`        | 개발 서버 시작 (HMR 활성화)          |
+| `bun run serve`      | 개발 서버 시작 (dev와 동일)          |
+| `bun run build`      | 프로덕션 빌드                        |
 | `npm run lint`       | ESLint로 TypeScript/테스트 코드 검사 |
-| `bun run test`       | 모든 테스트 실행            |
-| `bun run test:watch` | Watch 모드 테스팅           |
+| `bun run test`       | 모든 테스트 실행                     |
+| `bun run test:watch` | Watch 모드 테스팅                    |
 
 ### 개발 워크플로우
 

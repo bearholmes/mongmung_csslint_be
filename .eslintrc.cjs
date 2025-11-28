@@ -18,7 +18,14 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'prettier',
   ],
-  ignorePatterns: ['node_modules/', 'dist/', 'bun.lockb', '.idea/', '.github/', 'public/'],
+  ignorePatterns: [
+    'node_modules/',
+    'dist/',
+    'bun.lockb',
+    '.idea/',
+    '.github/',
+    'public/',
+  ],
   rules: {
     'no-console': ['warn', { allow: ['error', 'warn', 'info', 'debug'] }],
     'no-unused-vars': 'off',
