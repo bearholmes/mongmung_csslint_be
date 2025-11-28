@@ -1,0 +1,55 @@
+name: Build and Push to GHCR
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_TAG: ${{ github.sha }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create .env from repository vars
+        env:
+          PORT: ${{ vars.PORT || '5002' }}
+          HOST: ${{ vars.HOST || '0.0.0.0' }}
+          NODE_ENV: ${{ vars.NODE_ENV || 'production' }}
+          LOG_LEVEL: ${{ vars.LOG_LEVEL || '' }}
+          CORS_ORIGIN: ${{ vars.CORS_ORIGIN || '' }}
+        run: |
+          cat > .env <<'EOF'
+          PORT=${PORT}
+          HOST=${HOST}
+          NODE_ENV=${NODE_ENV}
+          LOG_LEVEL=${LOG_LEVEL}
+          CORS_ORIGIN=${CORS_ORIGIN}
+          EOF
+
+      - name: Log in to GHCR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "${GITHUB_TOKEN}" | docker login $REGISTRY -u ${{ github.actor }} --password-stdin
+
+      - name: Build image
+        run: |
+          docker build \
+            --file dockerfile \
+            --env-file .env \
+            -t $REGISTRY/$IMAGE_NAME:latest \
+            -t $REGISTRY/$IMAGE_NAME:${IMAGE_TAG} .
+
+      - name: Push image
+        run: |
+          docker push $REGISTRY/$IMAGE_NAME:latest
+          docker push $REGISTRY/$IMAGE_NAME:${IMAGE_TAG}

@@ -260,12 +260,9 @@ app.post(API_ROUTES.LINT, handleLintRequest, {
       description: '린트할 CSS 코드',
       minLength: 1,
     }),
-    syntax: t.Union(
-      [t.Literal('css'), t.Literal('html')],
-      {
-        description: 'CSS 문법 타입 (css 또는 html)',
-      },
-    ),
+    syntax: t.Union([t.Literal('css'), t.Literal('html')], {
+      description: 'CSS 문법 타입 (css 또는 html)',
+    }),
     config: t.Object({
       rules: t.Record(
         t.String(),
@@ -274,12 +271,9 @@ app.post(API_ROUTES.LINT, handleLintRequest, {
         }),
       ),
       outputStyle: t.Optional(
-        t.Union(
-          [t.Literal('compact'), t.Literal('nested')],
-          {
-            description: '출력 포맷 스타일 (compact 또는 nested)',
-          },
-        ),
+        t.Union([t.Literal('compact'), t.Literal('nested')], {
+          description: '출력 포맷 스타일 (compact 또는 nested)',
+        }),
       ),
     }),
   }),
@@ -301,9 +295,7 @@ if (import.meta.main && env.NODE_ENV !== ENV_MODE.TEST) {
     logger.info(
       `API documentation: http://${hostname}:${port}${API_ROUTES.DOCS}`,
     );
-    logger.info(
-      `Health check: http://${hostname}:${port}${API_ROUTES.HEALTH}`,
-    );
+    logger.info(`Health check: http://${hostname}:${port}${API_ROUTES.HEALTH}`);
     if (env.isDev) {
       logger.info('Development mode with HMR enabled');
     }
