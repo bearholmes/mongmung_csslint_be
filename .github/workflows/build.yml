@@ -20,22 +20,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Create .env from repository vars
-        env:
-          PORT: ${{ vars.PORT || '5002' }}
-          HOST: ${{ vars.HOST || '0.0.0.0' }}
-          NODE_ENV: ${{ vars.NODE_ENV || 'production' }}
-          LOG_LEVEL: ${{ vars.LOG_LEVEL || '' }}
-          CORS_ORIGIN: ${{ vars.CORS_ORIGIN || '' }}
-        run: |
-          cat > .env <<'EOF'
-          PORT=${PORT}
-          HOST=${HOST}
-          NODE_ENV=${NODE_ENV}
-          LOG_LEVEL=${LOG_LEVEL}
-          CORS_ORIGIN=${CORS_ORIGIN}
-          EOF
-
       - name: Log in to GHCR
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -45,7 +29,11 @@ jobs:
         run: |
           docker build \
             --file dockerfile \
-            --env-file .env \
+            --build-arg PORT=${{ vars.PORT || '5002' }} \
+            --build-arg HOST=${{ vars.HOST || '0.0.0.0' }} \
+            --build-arg NODE_ENV=${{ vars.NODE_ENV || 'production' }} \
+            --build-arg LOG_LEVEL=${{ vars.LOG_LEVEL || 'info' }} \
+            --build-arg CORS_ORIGIN=${{ vars.CORS_ORIGIN || '*' }} \
             -t $REGISTRY/$IMAGE_NAME:latest \
             -t $REGISTRY/$IMAGE_NAME:${IMAGE_TAG} .
 
