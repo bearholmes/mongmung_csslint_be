@@ -1,5 +1,5 @@
 {
-  "name": "mongmung_csslint_be",
+  "name": "mongmung_csslint_server",
   "version": "3.0.0",
   "private": true,
   "module": "src/index.ts",
@@ -12,11 +12,11 @@
   "scripts": {
     "clean": "rm -rf dist && echo 'Done.'",
     "format": "prettier . --write",
-    "serve": "NODE_ENV=development bun run src/index.ts",
-    "dev": "NODE_ENV=development bun run src/index.ts",
-    "build": "bun build src/index.ts --outdir dist",
+    "serve": "NODE_ENV=development bun run src/server.ts",
+    "dev": "NODE_ENV=development bun run src/server.ts",
+    "build": "bun build src/index.ts --target bun --outdir dist",
     "lint": "eslint \"src/**/*.ts\" \"tests/**/*.ts\"",
-    "start": "bun run src/index.ts",
+    "start": "bun run src/server.ts",
     "test": "bun test",
     "test:watch": "bun test --watch",
     "prepare": "husky install"

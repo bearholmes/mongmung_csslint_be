@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'bun:test';
-import app from '../src/index';
+import { app } from '../src/index';
 
 type HealthResponse = {
   status: string;
@@ -89,7 +89,8 @@ describe('API Integration Tests', () => {
       expect(data.success).toBe(true);
       expect(data.message).toBe('성공');
       expect(data.content).toBeTruthy();
-      expect(data.content.output).toContain('#fff');
+      const content = data.content!;
+      expect(content.output).toContain('#fff');
     });
 
     test('should return nested format when requested', async () => {
@@ -113,7 +114,8 @@ describe('API Integration Tests', () => {
 
       expect(response.status).toBe(200);
       expect(data.success).toBe(true);
-      expect(data.content.output).toContain('{\n');
+      const content = data.content!;
+      expect(content.output).toContain('{\n');
     });
 
     test('should return 400 for empty code', async () => {
@@ -203,7 +205,8 @@ describe('API Integration Tests', () => {
 
       expect(response.status).toBe(200);
       expect(data.success).toBe(true);
-      expect(data.content.info.config.customSyntax).toBe('postcss-html');
+      const content = data.content!;
+      expect(content.info?.config.customSyntax).toBe('postcss-html');
     });
 
     test('should include version and config info in response', async () => {
@@ -225,11 +228,12 @@ describe('API Integration Tests', () => {
       const data = (await response.json()) as LintResponse;
 
       expect(response.status).toBe(200);
-      expect(data.content.info.version).toBeTruthy();
-      expect(data.content.info.config.extends).toBeArray();
-      expect(data.content.info.config.extends.length).toBeGreaterThan(0);
-      expect(data.content.info.config.plugins).toBeArray();
-      expect(data.content.info.config.plugins.length).toBeGreaterThan(0);
+      const content = data.content!;
+      expect(content.info?.version).toBeTruthy();
+      expect(content.info?.config.extends).toBeArray();
+      expect(content.info?.config.extends.length).toBeGreaterThan(0);
+      expect(content.info?.config.plugins).toBeArray();
+      expect(content.info?.config.plugins.length).toBeGreaterThan(0);
     });
 
     test('should handle complex CSS with multiple rules', async () => {
@@ -266,8 +270,9 @@ describe('API Integration Tests', () => {
       expect(response.status).toBe(200);
       expect(data.success).toBe(true);
       // Stylelint may shorten hex colors (#ffffff -> #fff)
-      expect(data.content.output.toLowerCase()).toMatch(/#f{3,6}/);
-      expect(data.content.output.toLowerCase()).toMatch(/#0{3,6}/);
+      const content = data.content!;
+      expect(content.output?.toLowerCase()).toMatch(/#f{3,6}/);
+      expect(content.output?.toLowerCase()).toMatch(/#0{3,6}/);
     });
   });
 

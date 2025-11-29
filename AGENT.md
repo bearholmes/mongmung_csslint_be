@@ -1,4 +1,4 @@
-# mongmung_csslint_be 프로젝트 가이드
+# mongmung_csslint_server 프로젝트 가이드
 
 ## 프로젝트 개요
 
@@ -50,7 +50,7 @@ CSS 코드 품질 검사를 위한 백엔드 API 서비스입니다. Stylelint�
 ### 프로젝트 구조
 
 ```
-mongmung_csslint_be/
+mongmung_csslint_server/
 ├── src/
 │   ├── config/          # 설정 모듈
 │   │   ├── env.ts       # 환경 검증
@@ -96,7 +96,7 @@ mongmung_csslint_be/
 ## 프로젝트 구조
 
 ```
-mongmung_csslint_be/
+mongmung_csslint_server/
 ├── src/                          # 소스 코드 디렉토리
 │   ├── index.ts                  # 애플리케이션 진입점
 │   ├── types/                    # TypeScript 타입 정의
