@@ -65,9 +65,9 @@ describe('API Integration Tests', () => {
     });
   });
 
-  describe('POST /api/lint', () => {
+  describe('POST /lint', () => {
     test('should lint valid CSS successfully', async () => {
-      const request = new Request('http://localhost/api/lint', {
+      const request = new Request('http://localhost/lint', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ describe('API Integration Tests', () => {
     });
 
     test('should return nested format when requested', async () => {
-      const request = new Request('http://localhost/api/lint', {
+      const request = new Request('http://localhost/lint', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -119,7 +119,7 @@ describe('API Integration Tests', () => {
     });
 
     test('should return 400 for empty code', async () => {
-      const request = new Request('http://localhost/api/lint', {
+      const request = new Request('http://localhost/lint', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -140,7 +140,7 @@ describe('API Integration Tests', () => {
     });
 
     test('should return 400 for invalid syntax', async () => {
-      const request = new Request('http://localhost/api/lint', {
+      const request = new Request('http://localhost/lint', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -163,7 +163,7 @@ describe('API Integration Tests', () => {
     });
 
     test('should return 400 for empty rules', async () => {
-      const request = new Request('http://localhost/api/lint', {
+      const request = new Request('http://localhost/lint', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -186,7 +186,7 @@ describe('API Integration Tests', () => {
     });
 
     test('should handle HTML syntax with postcss-html', async () => {
-      const request = new Request('http://localhost/api/lint', {
+      const request = new Request('http://localhost/lint', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -210,7 +210,7 @@ describe('API Integration Tests', () => {
     });
 
     test('should include version and config info in response', async () => {
-      const request = new Request('http://localhost/api/lint', {
+      const request = new Request('http://localhost/lint', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -237,7 +237,7 @@ describe('API Integration Tests', () => {
     });
 
     test('should handle complex CSS with multiple rules', async () => {
-      const request = new Request('http://localhost/api/lint', {
+      const request = new Request('http://localhost/lint', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -290,7 +290,7 @@ describe('API Integration Tests', () => {
     });
 
     test('should handle malformed JSON', async () => {
-      const request = new Request('http://localhost/api/lint', {
+      const request = new Request('http://localhost/lint', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

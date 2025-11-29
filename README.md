@@ -121,7 +121,7 @@ bun run dev
 **테스트:**
 
 ```bash
-curl -X POST http://localhost:5002/api/lint \
+curl -X POST http://localhost:5002/lint \
   -H "Content-Type: application/json" \
   -d '{
     "code": "body { color: #FFF; }",
@@ -234,7 +234,7 @@ LOG_LEVEL=info
 #### CSS 코드 린트
 
 ```http
-POST /api/lint
+POST /lint
 ```
 
 **요청 본문:**

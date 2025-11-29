@@ -144,7 +144,7 @@ mongmung_csslint_server/
 **주요 엔드포인트:**
 
 - `GET /` - 헬스 체크 (ASCII 아트 반환)
-- `POST /api/lint` - CSS 린팅 API
+- `POST /lint` - CSS 린팅 API
 - `GET /swagger` - API 문서
 - `GET /favicon.ico` - 파비콘
 
@@ -363,12 +363,12 @@ docker run -p 5002:8080 -e PORT=8080 mongmung-csslint
 
 ## API 사용 가이드
 
-### POST /api/lint
+### POST /lint
 
 **요청 예시:**
 
 ```bash
-curl -X POST http://localhost:5002/api/lint \
+curl -X POST http://localhost:5002/lint \
   -H "Content-Type: application/json" \
   -d '{
     "code": "body { color: #FFF; background: red; }",

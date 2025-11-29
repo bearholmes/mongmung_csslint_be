@@ -15,7 +15,7 @@ interface ElysiaContext {
 
 /**
  * 린트 요청 핸들러
- * POST /api/lint 엔드포인트의 요청을 처리하고 적절한 응답을 반환
+ * POST /lint 엔드포인트의 요청을 처리하고 적절한 응답을 반환
  *
  * @param context - Elysia 컨텍스트 (body, set 포함)
  * @returns 린트 결과 또는 에러 응답
